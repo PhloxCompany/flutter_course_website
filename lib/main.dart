@@ -11,11 +11,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter course | Phlox company',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,50 +26,30 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: HomePage.routeName,
       onGenerateRoute: (settings) {
-        if (settings.name == HomePage.routeName) {
-          // Cast the arguments to the correct
-          // type: ScreenArguments.
-          final args = settings.arguments as ScreenArguments;
 
-          // Then, extract the required data from
-          // the arguments and pass the data to the
-          // correct screen.
-          return MaterialPageRoute(
+        switch(settings.name){
+          case HomePage.routeName:{
+            return MaterialPageRoute(
+              builder: (context) {
+                return const HomePage();
+              },
+            );
+          }
+          case SignIn.routeName:{
+            return MaterialPageRoute(
+              builder: (context) {
+                return const SignIn();
+              },
+            );
+          }
+          default: MaterialPageRoute(
             builder: (context) {
-              return const HomePage();
+              return const Page404();
             },
           );
         }
-        if (settings.name == SignIn.routeName) {
-          // Cast the arguments to the correct
-          // type: ScreenArguments.
-          final args = settings.arguments as ScreenArguments;
-
-          // Then, extract the required data from
-          // the arguments and pass the data to the
-          // correct screen.
-          return MaterialPageRoute(
-            builder: (context) {
-              return const SignIn();
-            },
-          );
-        }
-        return MaterialPageRoute(
-          builder: (context) {
-            return const Page404();
-          },
-        );
+        return null;
       },
     );
   }
-}
-
-// You can pass any object to the arguments parameter.
-// In this example, create a class that contains both
-// a customizable title and message.
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments(this.title, this.message);
 }
