@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/model/model_headline.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
@@ -6,10 +10,48 @@ import 'package:flutter_course_phlox/ui/widgets/button/icon_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
-import 'package:phlox_animations/phlox_animations.dart';
 
-class HomeWebPage extends StatelessWidget {
+class HomeWebPage extends StatefulWidget {
   const HomeWebPage({Key? key}) : super(key: key);
+
+  @override
+  State<HomeWebPage> createState() => _HomeWebPageState();
+}
+
+class _HomeWebPageState extends State<HomeWebPage> {
+  bool _loading = true;
+
+  final Dio _dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+    _requestHeadline();
+  }
+
+  final List<ModelHeadline> _listHeadline = [];
+
+  Future<void> _requestHeadline() async {
+    Response response =
+        await _dio.get("https://api.phloxcompany.com/flutter_course/index.php");
+    if (response.statusCode == 200) {
+      var _data = json.decode(response.data);
+      print(_data);
+      var _responseListHeadline = _data['list'];
+
+      for (var item in _responseListHeadline) {
+        _listHeadline.add(ModelHeadline(
+            id: item['id'],
+            title: item['head_title'],
+            complete: item['complete'] == 1,
+            isPublic: item['isPublic'] == 1,
+            time: item['time'],
+            sortId: item['sortId']));
+      }
+
+      setState(() => _loading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +120,19 @@ class HomeWebPage extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    const PhloxAnime(child: Text("با تدریس بابک قهرمان زاده"), millisecondsDelay: 1300,),
+                    const PhloxAnime(
+                      child: Text("با تدریس بابک قهرمان زاده"),
+                      millisecondsDelay: 1300,
+                    ),
                     const SizedBox(
                       height: 46,
                     ),
                     Row(
                       children: [
-                        PhloxAnime(child: ButtonBlack(onPressed: () {}, text: "ثبت نام در دوره"),
-                        millisecondsDelay: 1500),
+                        PhloxAnime(
+                            child: ButtonBlack(
+                                onPressed: () {}, text: "ثبت نام در دوره"),
+                            millisecondsDelay: 1500),
                         const SizedBox(
                           width: 32,
                         ),
@@ -153,7 +200,8 @@ class HomeWebPage extends StatelessWidget {
                     ),
                     PhloxAnime(
                         millisecondsDelay: 2300,
-                        child: TextLiWidget(text: "پیاده سازی دیتابیس Sqlite  در فلاتر")),
+                        child: TextLiWidget(
+                            text: "پیاده سازی دیتابیس Sqlite  در فلاتر")),
                     PhloxAnime(
                       millisecondsDelay: 2400,
                       child: TextLiWidget(
@@ -175,18 +223,22 @@ class HomeWebPage extends StatelessWidget {
                     ),
                     PhloxAnime(
                         millisecondsDelay: 2150,
-                        child: TextLiWidget(text: "آشنایی با انیمیشن در فلاتر")),
+                        child:
+                            TextLiWidget(text: "آشنایی با انیمیشن در فلاتر")),
                     PhloxAnime(
                         millisecondsDelay: 2250,
-                        child: TextLiWidget(text: "آشنایی کامل با State Management ها")),
+                        child: TextLiWidget(
+                            text: "آشنایی کامل با State Management ها")),
                     PhloxAnime(
                       millisecondsDelay: 2350,
                       child: TextLiWidget(
-                          text: "انتشار اپلیکیشن ها در مارکت های ایرانی و جهانی"),
+                          text:
+                              "انتشار اپلیکیشن ها در مارکت های ایرانی و جهانی"),
                     ),
                     PhloxAnime(
-                          millisecondsDelay: 2450,
-                        child: TextLiWidget(text: "پیاده سازی نقشه Open Street Map")),
+                        millisecondsDelay: 2450,
+                        child: TextLiWidget(
+                            text: "پیاده سازی نقشه Open Street Map")),
                   ],
                 )),
               ],
@@ -201,41 +253,106 @@ class HomeWebPage extends StatelessWidget {
                 textSize: 32,
               ),
             ),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24)),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              elevation: 32,
+            _loading
+                ? const CircularProgressIndicator()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: _itemHeadline,
+                    itemCount: _listHeadline.length,
+                  ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _itemHeadline(BuildContext context, int index) {
+    ModelHeadline model = _listHeadline[index];
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      width: 1060,
+      height: model.isExpanded ? 590 : 90,
+      padding: const EdgeInsets.symmetric(horizontal: 42),
+      decoration:  BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+          color: Colors.white,
+          image: const DecorationImage(
+              opacity: .4,
+              image: AssetImage(
+                'assets/images/bg.jpg',
+              ),
+              fit: BoxFit.fitWidth)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 16,),
+          Row(
+            children: [
+              IconButtonWidget(
+                icon: Icons.play_arrow_rounded,
+                voidCallback: () {
+                  setState(() {
+                    model.isExpanded = !model.isExpanded;
+                  });
+                },
+              ),
+              Text(model.title),
+              const Spacer(),
+              Text(model.time,
+                  style: const TextStyle(
+                    fontFamily: 'vazir',
+                    fontWeight: FontWeight.bold,
+                  )),
+              IconButtonWidget(
+                icon: model.isExpanded
+                    ? Icons.arrow_downward_rounded
+                    : Icons.arrow_drop_up_sharp,
+                voidCallback: () {
+                  setState(() {
+                    model.isExpanded = !model.isExpanded;
+                  });
+                },
+              ),
+            ],
+          ),
+          if(model.isExpanded)
+            const SizedBox(height: 16,),
+          if(model.isExpanded)
+            Expanded(
               child: Container(
-                width: 1060,
-                height: 90,
-                padding: const EdgeInsets.symmetric(horizontal: 42),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        opacity: .2,
-                        image: AssetImage(
-                          'assets/images/bg.jpg',
-                        ),
-                        fit: BoxFit.fitWidth)),
-                child: Row(
+                margin: const EdgeInsets.only(bottom: 24),
+                child: Column(
                   children: [
-                    IconButtonWidget(
-                      icon: Icons.play_arrow_rounded,
-                      voidCallback: () {},
+                    Expanded(
+                      child: Card(
+                        margin: const EdgeInsets.all(4),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)
+                        ),
+                        color:Colors.amber,
+                        child: Stack(
+                          children: [
+                            Image.asset('assets/images/bg.jpg', fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                            const Center(
+                              child: Icon(Icons.play_arrow_rounded),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                    const Text("آموزش زبان دارت"),
-                    const Spacer(),
-                    const Text('10 دقیقه',
-                        style: TextStyle(
-                          fontFamily: 'vazir',
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Text(model.title),
+                    Text(model.complete ? "": "در حال ضبط"),
+
                   ],
                 ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
