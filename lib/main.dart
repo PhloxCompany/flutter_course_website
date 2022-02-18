@@ -11,12 +11,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter course | Phlox company',
+      themeMode: ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'sans',
         primarySwatch: Colors.blue,
       ),
       routes: {
@@ -26,6 +28,10 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: HomePage.routeName,
       onGenerateRoute: (settings) {
+
+        print(settings);
+        print(settings.name);
+        print(settings.arguments);
 
         switch(settings.name){
           case HomePage.routeName:{
@@ -42,13 +48,12 @@ class MyApp extends StatelessWidget {
               },
             );
           }
-          default: MaterialPageRoute(
-            builder: (context) {
-              return const Page404();
-            },
-          );
         }
-        return null;
+        return MaterialPageRoute(
+          builder: (context) {
+            return const Page404();
+          },
+        );
       },
     );
   }
