@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
@@ -10,6 +8,8 @@ import 'package:flutter_course_phlox/ui/widgets/button/icon_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
+import 'package:flutter_course_phlox/utils/links.dart';
+import 'package:provider/provider.dart';
 
 class HomeWebPage extends StatefulWidget {
   const HomeWebPage({Key? key}) : super(key: key);
@@ -19,9 +19,7 @@ class HomeWebPage extends StatefulWidget {
 }
 
 class _HomeWebPageState extends State<HomeWebPage> {
-  bool _loading = true;
 
-  final Dio _dio = Dio();
 
   @override
   void initState() {
@@ -29,32 +27,15 @@ class _HomeWebPageState extends State<HomeWebPage> {
     _requestHeadline();
   }
 
-  final List<ModelHeadline> _listHeadline = [];
-
-  Future<void> _requestHeadline() async {
-    Response response =
-        await _dio.get("https://api.phloxcompany.com/flutter_course/index.php");
-    if (response.statusCode == 200) {
-      var _data = json.decode(response.data);
-      print(_data);
-      var _responseListHeadline = _data['list'];
-
-      for (var item in _responseListHeadline) {
-        _listHeadline.add(ModelHeadline(
-            id: item['id'],
-            title: item['head_title'],
-            complete: item['complete'] == 1,
-            isPublic: item['isPublic'] == 1,
-            time: item['time'],
-            sortId: item['sortId']));
-      }
-
-      setState(() => _loading = false);
-    }
+  Future _requestHeadline() async {
+    HomeProvider homeProvider = Provider.of(context, listen: false);
+    await homeProvider.requestHeadline();
   }
+
 
   @override
   Widget build(BuildContext context) {
+    HomeProvider homeProvider = Provider.of(context, listen: true);
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Container(
@@ -72,8 +53,8 @@ class _HomeWebPageState extends State<HomeWebPage> {
               ),
             ],
             image: const DecorationImage(
-                image: AssetImage(
-                  'assets/images/bg.jpg',
+                image: NetworkImage(
+                  '${Links.filesUrl}/bg.jpg',
                 ),
                 fit: BoxFit.fitWidth)),
         child: Column(
@@ -149,8 +130,8 @@ class _HomeWebPageState extends State<HomeWebPage> {
                     child: Center(
                   child: PhloxAnime(
                     millisecondsDelay: 1720,
-                    child: Image.asset(
-                      'assets/images/man.png',
+                    child: Image.network(
+                      '${Links.filesUrl}man.png',
                       width: double.infinity,
                       fit: BoxFit.contain,
                     ),
@@ -253,12 +234,12 @@ class _HomeWebPageState extends State<HomeWebPage> {
                 textSize: 32,
               ),
             ),
-            _loading
+            homeProvider.loading
                 ? const CircularProgressIndicator()
                 : ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: _itemHeadline,
-                    itemCount: _listHeadline.length,
+                    itemCount: homeProvider.listHeadlines.length,
                   ),
           ],
         ),
@@ -267,19 +248,21 @@ class _HomeWebPageState extends State<HomeWebPage> {
   }
 
   Widget _itemHeadline(BuildContext context, int index) {
-    ModelHeadline model = _listHeadline[index];
+    HomeProvider homeProvider = Provider.of(context, listen: false);
+    ModelHeadline model = homeProvider.listHeadlines[index];
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       width: 1060,
-      height: model.isExpanded ? 590 : 90,
+      height: model.isExpanded ? 540 : 90,
       padding: const EdgeInsets.symmetric(horizontal: 42),
       decoration:  BoxDecoration(
         borderRadius: BorderRadius.circular(24),
           color: Colors.white,
           image: const DecorationImage(
               opacity: .4,
-              image: AssetImage(
-                'assets/images/bg.jpg',
+              image: NetworkImage(
+                '${Links.filesUrl}/bg.jpg',
               ),
               fit: BoxFit.fitWidth)),
       child: Column(
@@ -321,35 +304,34 @@ class _HomeWebPageState extends State<HomeWebPage> {
             const SizedBox(height: 16,),
           if(model.isExpanded)
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 24),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Card(
-                        margin: const EdgeInsets.all(4),
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24)
-                        ),
-                        color:Colors.amber,
-                        child: Stack(
-                          children: [
-                            Image.asset('assets/images/bg.jpg', fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                            const Center(
-                              child: Icon(Icons.play_arrow_rounded),
-                            )
-                          ],
-                        ),
+              child: Flex(
+                direction: Axis.vertical,
+                children: [
+                  Expanded(
+                    child: Card(
+                      margin: const EdgeInsets.all(4),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)
+                      ),
+                      color:Colors.amber,
+                      child: Stack(
+
+                        children: [
+                          Image.network('${Links.filesUrl}/bg.jpg', fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+                          const Center(
+                            child: Icon(Icons.play_arrow_rounded),
+                          )
+                        ],
                       ),
                     ),
-                    Text(model.title),
-                    Text(model.complete ? "": "در حال ضبط"),
+                  ),
+                  Text(model.title),
+                  Text(model.complete ? "": "در حال ضبط"),
 
-                  ],
-                ),
+                ],
               ),
             ),
         ],

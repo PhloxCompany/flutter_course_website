@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/errors/404page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
+import 'package:provider/provider.dart';
 
 import 'ui/pages/home_page/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const _Providers());
+}
+
+class _Providers extends StatelessWidget {
+  const _Providers({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => HomeProvider(),),
+    ], child: const MyApp(),);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'sans',
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
       routes: {
         HomePage.routeName: (context) => const HomePage(),

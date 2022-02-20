@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/ui/pages/home_page/home_phone_page.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
+import 'package:flutter_course_phlox/utils/links.dart';
 import '../../widgets/text/extra_bold_text.dart';
 import 'home_web_page.dart';
 
@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    bool _isWeb = width >= 1080;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -24,11 +25,11 @@ class HomePage extends StatelessWidget {
                 keepScrollOffset: true,
                 debugLabel: "home page scroll view"
               ),
-              child: Center(
-                child: width >= 1080 ? const HomeWebPage() : const HomePhonePage(),
+              child: const Center(
+                child: HomeWebPage(),
               ),
             ),
-            if (width >= 1080) Align(
+            Align(
               alignment: Alignment.bottomCenter,
               child: PhloxAnime(
                 millisecondsDelay: 1000,
@@ -41,14 +42,14 @@ class HomePage extends StatelessWidget {
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   elevation: 32,
                   child: Container(
-                    width: 1060,
+                    width: _isWeb ? 1060 : double.infinity,
                     height: 90,
                       padding: const EdgeInsets.symmetric(horizontal: 42),
-                      decoration:const BoxDecoration(
+                      decoration: const BoxDecoration(
                       image: DecorationImage(
                         opacity: .2,
-                          image: AssetImage(
-                            'assets/images/bg.jpg',
+                          image: NetworkImage(
+                            '${Links.filesUrl}/bg.jpg',
                           ),
                           fit: BoxFit.fitWidth)),
                     child: Row(
