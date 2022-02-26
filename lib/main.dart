@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         SignIn.routeName: (context) => const SignIn(),
         Page404.routeName: (context) => const Page404(),
       },
-      initialRoute: SignUp.routeName,
+      initialRoute: SignIn.routeName,
       onGenerateRoute: (settings) {
 
         print(settings);
