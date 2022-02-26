@@ -12,7 +12,7 @@ class TextLiWidget extends StatelessWidget {
       children: [
         const Icon(Icons.circle, size: 12,),
         const SizedBox(width: 12,),
-        Flexible(child: Text(text, softWrap: false,)),
+        Flexible(child: Text(text, softWrap: true,)),
       ],
     );
   }

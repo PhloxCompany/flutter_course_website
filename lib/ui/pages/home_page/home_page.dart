@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    bool _isWeb = width >= 1080;
+    bool _isWeb = width >= 1024;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget {
           children: [
             SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 90),
-              physics: const BouncingScrollPhysics(),
               controller: ScrollController(
                 keepScrollOffset: true,
                 debugLabel: "home page scroll view"
@@ -44,7 +43,7 @@ class HomePage extends StatelessWidget {
                   child: Container(
                     width: _isWeb ? 1060 : double.infinity,
                     height: _isWeb ? 90 : 70,
-                      padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24),
+                      padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 14),
                       decoration: const BoxDecoration(
                       image: DecorationImage(
                         opacity: .4,
@@ -54,7 +53,7 @@ class HomePage extends StatelessWidget {
                           fit: BoxFit.fitWidth)),
                     child: Row(
                       children: [
-                        const Text("دوره آنلاین"),
+                        if(width > 400) const Text("دوره آنلاین"),
                         const SizedBox(width: 12,),
                         ExtraBoldText(
                           text: "متخصص فلاتر شو",

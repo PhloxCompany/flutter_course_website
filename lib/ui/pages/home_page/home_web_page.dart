@@ -35,11 +35,11 @@ class _HomeWebPageState extends State<HomeWebPage> {
   Widget build(BuildContext context) {
     HomeProvider homeProvider = Provider.of(context, listen: true);
     double width = MediaQuery.of(context).size.width;
-    bool _isWeb = width >= 1080;
+    bool _isWeb = width >= 1024;
     return Padding(
       padding: EdgeInsets.all(_isWeb ? 32 : 16),
       child: Container(
-        width: _isWeb ? 1080 : double.infinity,
+        width: _isWeb ? 1024 : double.infinity,
         padding:
             EdgeInsets.symmetric(horizontal: _isWeb ? 68 : 32, vertical: 32),
         decoration: BoxDecoration(
@@ -64,13 +64,18 @@ class _HomeWebPageState extends State<HomeWebPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const PhloxAnime(
-                    millisecondsDelay: 100,
-                    child: BoldText(text: "شرکت برنامه نویسی فلوکس")),
+                 Flexible(
+                   child: PhloxAnime(
+                      millisecondsDelay: 100,
+                      child: BoldText(text: "شرکت برنامه نویسی فلوکس",
+                          textSize : _isWeb ? 18 : 12
+                      )),
+                 ),
                 PhloxAnime(
                     millisecondsDelay: 300,
-                    child:
-                        BorderButtonWidget(onPressed: () {}, text: "ثبت نام"))
+                    child: BorderButtonWidget(onPressed: () {}, text: "ثبت نام",
+                        padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
+                    ))
               ],
             ),
             const SizedBox(
@@ -114,15 +119,19 @@ class _HomeWebPageState extends State<HomeWebPage> {
                       children: [
                         PhloxAnime(
                             child: ButtonBlack(
-                                onPressed: () {}, text: "ثبت نام در دوره"),
+                                onPressed: () {}, text: "ثبت نام در دوره",
+                                padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
+                            ),
                             millisecondsDelay: 1500),
                         const SizedBox(
-                          width: 32,
+                          width: 12,
                         ),
                         PhloxAnime(
                           millisecondsDelay: 1600,
                           child: BorderButtonWidget(
-                              onPressed: () {}, text: "سرفصل های دوره"),
+                              onPressed: () {}, text: "سرفصل های دوره",
+                              padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
+                          ),
                         ),
                       ],
                     )
@@ -208,6 +217,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
             homeProvider.loading
                 ? const CircularProgressIndicator()
                 : ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: _itemHeadline,
                     itemCount: homeProvider.listHeadlines.length,
@@ -223,7 +233,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
     ModelHeadline model = homeProvider.listHeadlines[index];
 
     double width = MediaQuery.of(context).size.width;
-    bool _isWeb = width >= 1080;
+    bool _isWeb = width >= 1024;
 
     return Column(
       children: [

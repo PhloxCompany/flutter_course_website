@@ -1,69 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="$FLUTTER_BASE_HREF">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="flutter courses application">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="flutter courses application">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="blue">
-  <meta name="apple-mobile-web-app-title" content="flutter course phlox">
-  <link rel="apple-touch-icon" href="./fav-icon.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="blue">
+    <meta name="apple-mobile-web-app-title" content="flutter course phlox">
+    <link rel="apple-touch-icon" href="./fav-icon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="fav-icon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./fav-icon.png"/>
 
-  <title>flutter_course_phlox</title>
-  <link rel="manifest" href="manifest.json">
+    <title>flutter crash course | phlox company</title>
+    <link rel="manifest" href="manifest.json">
 
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="loading">
-      <h2 class="animate">Loading</h2>
-      <p>Welcome to phlox company<br>flutter crash course</p>
-
+<div style="text-align: center">
+    <img src="./phlox_company_logo.png" alt="phlox company logo" width="200px">
+    <br>
+    <br>
+    <div class="progress">
+        <div class="progress-value"></div>
     </div>
+</div>
 
-    <script src="main.dart.js" type="application/javascript">
-        window.addEventListener("load", loadTime, false);
 
-        function loadTime() {
-          // Get current time.
-          var now = new Date().getTime();
-          // Calculate page load time.
-          var page_load_time = now - performance.timing.navigationStart;
-          // Write the load time to the F12 console.
-          if (window.console) console.log(page_load_time);
-        }
+<script src="main.dart.js" type="application/javascript">
       window.onload = (event) => {
 
-        let loader = document.getElementById('loading');
+        let loader = document.getElementById('progress');
         if(loader != null){
           loader.remove();
 
           console.log("removed");
         }
       };
-    </script>
-    <script>
+
+</script>
+<script>
     console.log("start page load");
         window.addEventListener("load", loadTime, false);
 
@@ -138,6 +133,7 @@
         // Service workers not supported. Just drop the <script> tag.
         loadMainDartJs();
       }
-    </script>
+
+</script>
 </body>
 </html>
