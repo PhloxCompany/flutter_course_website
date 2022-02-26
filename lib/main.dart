@@ -3,10 +3,12 @@ import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/errors/404page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'ui/pages/home_page/home_page.dart';
 
 void main() {
+  setPathUrlStrategy();
   runApp(const _Providers());
 }
 

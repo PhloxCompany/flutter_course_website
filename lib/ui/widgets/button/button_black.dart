@@ -5,6 +5,7 @@ class ButtonBlack extends StatelessWidget {
   final String text;
   final Color backgroundColor;
   final Color color;
+  final EdgeInsets padding;
 
   const ButtonBlack({
     Key? key,
@@ -12,24 +13,28 @@ class ButtonBlack extends StatelessWidget {
     required this.text,
     this.backgroundColor = Colors.black,
     this.color = Colors.white,
+    this.padding = const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onPressed,
-      textColor: color,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: 'sans_bold',
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: MaterialButton(
+        onPressed: onPressed,
+        textColor: color,
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontFamily: 'sans_bold',
+          ),
         ),
-      ),
-      elevation: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
-      color: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        elevation: 32,
+        padding: padding,
+        color: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
       ),
     );
   }

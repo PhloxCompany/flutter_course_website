@@ -35,4 +35,9 @@ class HomeProvider extends ChangeNotifier{
     }
   }
 
+  void toggleListTile(ModelHeadline model) {
+    model.isExpanded = !model.isExpanded;
+    notifyListeners();
+  }
+
 }

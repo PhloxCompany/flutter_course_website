@@ -12,11 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
+#  cupertino_icons: ^1.0.2
   phlox_animations: any
   shared_preferences: any
   dio: any
   provider: any
+  url_strategy: ^0.2.0
 
 dev_dependencies:
   flutter_test:

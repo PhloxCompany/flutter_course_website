@@ -7,9 +7,10 @@ class Page404 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("404"),
+    return Scaffold(
+      backgroundColor: Colors.grey[900],
+      body: const Center(
+        child: Text("Error 404"),
       ),
     );
   }

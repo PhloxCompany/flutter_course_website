@@ -10,9 +10,9 @@ class TextLiWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(Icons.circle, size: 12,),
-        SizedBox(width: 12,),
-        Text(text),
+        const Icon(Icons.circle, size: 12,),
+        const SizedBox(width: 12,),
+        Flexible(child: Text(text, softWrap: true,)),
       ],
     );
   }

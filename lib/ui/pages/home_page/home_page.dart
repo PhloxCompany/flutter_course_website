@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    bool _isWeb = width >= 1080;
+    bool _isWeb = width >= 1024;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget {
           children: [
             SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 90),
-              physics: const BouncingScrollPhysics(),
               controller: ScrollController(
                 keepScrollOffset: true,
                 debugLabel: "home page scroll view"
@@ -35,7 +34,7 @@ class HomePage extends StatelessWidget {
                 millisecondsDelay: 1000,
                 child: Card(
                   shadowColor: Colors.grey[800],
-                  margin: const EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.all(22),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24)
                   ),
@@ -43,22 +42,22 @@ class HomePage extends StatelessWidget {
                   elevation: 32,
                   child: Container(
                     width: _isWeb ? 1060 : double.infinity,
-                    height: 90,
-                      padding: const EdgeInsets.symmetric(horizontal: 42),
+                    height: _isWeb ? 90 : 70,
+                      padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 14),
                       decoration: const BoxDecoration(
                       image: DecorationImage(
-                        opacity: .2,
+                        opacity: .4,
                           image: NetworkImage(
                             '${Links.filesUrl}/bg.jpg',
                           ),
                           fit: BoxFit.fitWidth)),
                     child: Row(
                       children: [
-                        const Text("دوره آنلاین"),
+                        if(width > 400) const Text("دوره آنلاین"),
                         const SizedBox(width: 12,),
-                        const ExtraBoldText(
+                        ExtraBoldText(
                           text: "متخصص فلاتر شو",
-                          textSize: 32,
+                          textSize: _isWeb ? 32 : 18,
                           color: Colors.black,
                         ),
                         const Spacer(),
@@ -66,7 +65,7 @@ class HomePage extends StatelessWidget {
                           millisecondsDelay: 1500,
                           child: Text('1,700,000',style: TextStyle(
                             fontFamily:'vazir',
-                              fontSize: 22,
+                              fontSize: _isWeb ? 22 : 14,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.lineThrough,
                             color: Colors.grey[700],
@@ -81,30 +80,30 @@ class HomePage extends StatelessWidget {
                           child: MaterialButton(
                             onPressed: (){},
                             textColor: Colors.white,
+                            elevation: 32,
+                            padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 16),
+                            color: Colors.redAccent.shade200,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
                             child: Row(
                               children: [
-                                const Text("790",
+                                Text("790",
                                   style: TextStyle(
-                                    fontSize: 22,
+                                    fontSize:_isWeb ? 22 : 18,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'vazir'
                                   ),
                                 ),
                                 Text(" هزار تومان",
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: _isWeb ? 12 : 8,
                                     color: Colors.grey[200]!,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'vazir'
                                   ),
                                 ),
                               ],
-                            ),
-                            elevation: 32,
-                            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 16),
-                            color: Colors.redAccent.shade200,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
                             ),
                           ),
                         ),
