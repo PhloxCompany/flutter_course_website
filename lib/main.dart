@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/errors/404page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
+import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
+import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'ui/pages/home_page/home_page.dart';
+import 'ui/pages/sign_up/sign_up.dart';
 
 void main() {
   setPathUrlStrategy();
@@ -38,10 +41,11 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         HomePage.routeName: (context) => const HomePage(),
+        SignUp.routeName: (context) => const SignUp(),
         SignIn.routeName: (context) => const SignIn(),
         Page404.routeName: (context) => const Page404(),
       },
-      initialRoute: HomePage.routeName,
+      initialRoute: SignUp.routeName,
       onGenerateRoute: (settings) {
 
         print(settings);
