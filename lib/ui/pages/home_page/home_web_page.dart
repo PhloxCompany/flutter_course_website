@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
+import 'package:flutter_course_phlox/ui/pages/home_page/item_headline.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
@@ -23,12 +24,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
   @override
   void initState() {
     super.initState();
-    _requestHeadline();
-  }
-
-  Future _requestHeadline() async {
-    HomeProvider homeProvider = Provider.of(context, listen: false);
-    await homeProvider.requestHeadline();
+    context.read<HomeProvider>().requestHeadline();
   }
 
   @override
@@ -45,11 +41,12 @@ class _HomeWebPageState extends State<HomeWebPage> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             color: null,
+            border: Border.all(color: Colors.black, width: 4),
             boxShadow: [
               BoxShadow(
                 spreadRadius: 1,
                 offset: const Offset(0, 0),
-                color: Colors.grey[800]!,
+                color: Colors.grey[600]!,
                 blurRadius: 90,
               ),
             ],
@@ -219,7 +216,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
                 : ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: _itemHeadline,
+                    itemBuilder: (context, index) => ItemHeadline(modelHeadline: homeProvider.listHeadlines[index]),
                     itemCount: homeProvider.listHeadlines.length,
                   ),
           ],
@@ -227,6 +224,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
       ),
     );
   }
+
 
   Widget _itemHeadline(BuildContext context, int index) {
     HomeProvider homeProvider = Provider.of(context, listen: false);

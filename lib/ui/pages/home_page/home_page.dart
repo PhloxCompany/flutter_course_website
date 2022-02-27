@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.amber.shade50,
         body: Stack(
           children: [
             SingleChildScrollView(
