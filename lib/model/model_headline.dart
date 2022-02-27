@@ -4,15 +4,29 @@ class ModelHeadline {
   bool complete;
   String time;
   int sortId;
-  bool isPublic;
+  VideoVisibility videoVisibility;
   bool isPlay = false;
   bool isExpanded = false;
 
-  ModelHeadline({
-    required this.id,
-    required this.title,
-    required this.complete,
-    required this.isPublic,
-    required this.time,
-    required this.sortId});
+  ModelHeadline(
+      {required this.id,
+      required this.title,
+      required this.complete,
+      required this.videoVisibility,
+      required this.time,
+      required this.sortId});
+
+  factory ModelHeadline.fromItem(var item) => ModelHeadline(
+      id: item['id'],
+      title: item['head_title'],
+      complete: item['is_completed'] == 1,
+      videoVisibility: VideoVisibility.values[item['video_visibility']],
+      time: item['time'],
+      sortId: item['sortId']);
+}
+
+enum VideoVisibility{
+  private,
+  public,
+  global,
 }
