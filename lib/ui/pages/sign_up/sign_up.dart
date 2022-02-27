@@ -13,6 +13,7 @@ class SignUp extends StatelessWidget {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          backgroundColor:  Colors.amber[50],
           body: Center(
             child: SingleChildScrollView(
               child: Container(
@@ -242,7 +243,7 @@ class SignUp extends StatelessWidget {
                       ),
                   ],
                 ),
-                margin: const EdgeInsets.all(20),
+                margin: EdgeInsets.all(_isWeb ? 0 : 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(22),
                   color: null,
@@ -250,7 +251,7 @@ class SignUp extends StatelessWidget {
                     BoxShadow(
                       spreadRadius: 1,
                       offset: const Offset(0, 0),
-                      color: Colors.grey[800]!,
+                      color: Colors.grey[600]!,
                       blurRadius: 90,
                     ),
                   ],
