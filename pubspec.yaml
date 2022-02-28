@@ -18,6 +18,7 @@ dependencies:
   dio: any
   provider: any
   url_strategy: ^0.2.0
+  pin_code_fields: any
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,7 @@ flutter:
 
   assets:
    - assets/
+   - assets/images/
 
   fonts:
    - family: bold
