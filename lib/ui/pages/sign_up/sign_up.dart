@@ -60,7 +60,6 @@ class SignUp extends StatelessWidget {
                                           color: Colors.grey,
                                         )),
                                     labelStyle: const TextStyle(color: Colors.grey),
-                                    hintText: 'احمد ذوقی',
                                     labelText: 'نام و نام خانوادگی',
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -115,7 +114,6 @@ class SignUp extends StatelessWidget {
                                           color: Colors.grey,
                                         )),
                                     labelStyle: const TextStyle(color: Colors.grey),
-                                    hintText: 'احمد ذوقی',
                                     labelText: 'پسورد',
                                     suffixIcon: IconButton(
                                       onPressed: (){},
@@ -146,7 +144,6 @@ class SignUp extends StatelessWidget {
                                           color: Colors.grey,
                                         )),
                                     labelStyle: const TextStyle(color: Colors.grey),
-                                    hintText: 'احمد ذوقی',
                                     labelText: 'تکرار پسورد',
                                     suffixIcon: IconButton(
                                       onPressed: (){},
