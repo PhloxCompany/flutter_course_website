@@ -25,14 +25,14 @@ class RememberCode extends StatelessWidget {
           body: Center(
             child: SingleChildScrollView(
               child: PhloxAnime(
-                millisecondsDelay: 1000,
+                millisecondsDelay: 300,
                 child: Container(
                   width: _isWeb ? 1024 : double.infinity,
                   child: Row(
                     children: [
                       Expanded(
                         child: PhloxAnime(
-                          millisecondsDelay: 1500,
+                          millisecondsDelay: 700,
 
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -167,7 +167,7 @@ class RememberCode extends StatelessWidget {
                       if (_isWeb)
                         Expanded(
                           child: PhloxAnime(
-                            millisecondsDelay: 1500,
+                            millisecondsDelay: 700,
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.end,

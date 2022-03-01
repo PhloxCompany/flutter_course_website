@@ -25,7 +25,7 @@ class SignIn extends StatelessWidget {
           body: Center(
             child: SingleChildScrollView(
               child: PhloxAnime(
-                millisecondsDelay: 1000,
+                millisecondsDelay: 300,
                 child: Container(
                   constraints: const BoxConstraints(minHeight: 640),
                   width: _isWeb ? 1024 : double.infinity,
@@ -34,7 +34,7 @@ class SignIn extends StatelessWidget {
                       if (_isWeb)
                         Expanded(
                           child: PhloxAnime(
-                            millisecondsDelay: 1500,
+                            millisecondsDelay: 700,
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +72,7 @@ class SignIn extends StatelessWidget {
 
                       Expanded(
                         child: PhloxAnime(
-                          millisecondsDelay: 1500,
+                          millisecondsDelay: 700,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
