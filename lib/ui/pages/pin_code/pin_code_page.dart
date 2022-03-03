@@ -5,10 +5,11 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math; // import this
 import '../../../utils/links.dart';
+import '../../widgets/text/sign_deatils_button.dart';
 
-class RememberCode extends StatelessWidget {
-  const RememberCode({Key? key}) : super(key: key);
-  static const routeName = '/remember_code';
+class PinCode extends StatelessWidget {
+  const PinCode({Key? key}) : super(key: key);
+  static const routeName = '/pin_code';
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class RememberCode extends StatelessWidget {
         .of(context)
         .size
         .width;
-    RememberCodeProvider rememberCodeProvider = Provider.of(context);
+    PinCodeProvider pinCodeProvider = Provider.of(context);
     bool _isWeb = width >= 1024;
     return Directionality(
         textDirection: TextDirection.rtl,
@@ -27,7 +28,31 @@ class RememberCode extends StatelessWidget {
               child: PhloxAnime(
                 millisecondsDelay: 300,
                 child: Container(
+                  constraints: const BoxConstraints(minHeight: 640),
                   width: _isWeb ? 1024 : double.infinity,
+                  margin: EdgeInsets.all (_isWeb ? 32 : 16),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    color: Colors.amber[50],
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 1,
+                        offset: const Offset(0, 0),
+                        color: Colors.grey[600]!,
+                        blurRadius: 90,
+                      ),
+                    ],
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.white,
+                    ),
+                    image:  const DecorationImage(
+                        image: NetworkImage(
+                          '${Links.filesUrl}/bg.jpg',
+                        ),
+                        fit: BoxFit.cover),
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -41,14 +66,14 @@ class RememberCode extends StatelessWidget {
                             children: [
                               const Text(
                                 'پسوورد خود را فراموش کرده اید؟',
-                                style: TextStyle(fontSize: 22),
+                                style: TextStyle(fontSize: 24),
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
                               const Text(
                                 'لطفا شماره تلفنی را که برای ثبت نام داده اید\nرا وارد نمایید',
-                                style: TextStyle(fontSize: 18, color: Colors.grey),
+                                style: TextStyle(fontSize: 14, color: Colors.grey),
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(
@@ -56,8 +81,8 @@ class RememberCode extends StatelessWidget {
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                                child: rememberCodeProvider.sendCode == false
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: pinCodeProvider.sendCode == false
                                     ? TextField(
                                   keyboardType: TextInputType.number,
                                   maxLength: 11,
@@ -127,7 +152,7 @@ class RememberCode extends StatelessWidget {
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: MaterialButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(14)),
@@ -138,15 +163,15 @@ class RememberCode extends StatelessWidget {
                                   height: 62,
                                   color: const Color(0xff2d3653),
                                   onPressed: () {
-                                    if (rememberCodeProvider.sendCode == false) {
-                                      rememberCodeProvider.isSentCode(
-                                          !rememberCodeProvider.sendCode);
-                                      rememberCodeProvider.start = 60;
-                                      rememberCodeProvider.startTimer();
+                                    if (pinCodeProvider.sendCode == false) {
+                                      pinCodeProvider.isSentCode(
+                                          !pinCodeProvider.sendCode);
+                                      pinCodeProvider.start = 60;
+                                      pinCodeProvider.startTimer();
                                     }
                                   },
                                   child: Text(
-                                    rememberCodeProvider.sendCode == false
+                                    pinCodeProvider.sendCode == false
                                         ? 'ارسال کد'
                                         : 'تایید کد',
                                     style: const TextStyle(color: Colors.white),
@@ -154,10 +179,10 @@ class RememberCode extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                rememberCodeProvider.sendCode == false
+                                pinCodeProvider.sendCode == false
                                     ? ''
-                                    : '${rememberCodeProvider.start %
-                                    60} : ${rememberCodeProvider.start ~/ 60}',
+                                    : '${pinCodeProvider.start %
+                                    60} : ${pinCodeProvider.start ~/ 60}',
                                 style: const TextStyle(color: Colors.grey),
                               ),
                             ],
@@ -183,97 +208,14 @@ class RememberCode extends StatelessWidget {
                                         'https://api.phloxcompany.com/flutter_course/files/shape_bottom.png'),
                                   ),
                                 ),
-                                SizedBox(width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(14),
-                                      child: Image.asset(
-                                      'assets/images/spam.png',
-                                      width: 190,
-                                      height: 190,
-                                      fit: BoxFit.cover,
-                                  ),
-                                    ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text('در صورت ارسال نشدن کد\nبه بخش spam مراجعه کنید',
-                                        style: TextStyle(color: Colors.grey[700]!),
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                //SizedBox(
-                                //     width: double.infinity,
-                                //     height: 240,
-                                //     child: rememberCodeProvider.sendCode == true
-                                //         ? SizedBox(
-                                //       width: 40,
-                                //           height: ,
-                                //           child: ClipRRect(
-                                //               borderRadius:
-                                //                   BorderRadius.circular(12),
-                                //               child: Image.asset(
-                                //                 'assets/images/spam.png',
-                                //                 width: 100,
-                                //                 fit: BoxFit.cover,
-                                //                 height: 200,
-                                //               )),
-                                //         )
-                                //        : const SizedBox()
-                                //
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left: 60.0),
-                                //   child: Align(
-                                //     alignment: Alignment.topLeft,
-                                //     child: Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.center,
-                                //       mainAxisAlignment: MainAxisAlignment.start,
-                                //       children: [
-                                //         const SizedBox(
-                                //           height: 20,
-                                //         ),
-                                //         const Text(
-                                //           'پسورد خود را به یاد اوردید؟',
-                                //           style: TextStyle(fontSize: 18),
-                                //         ),
-                                //         const SizedBox(
-                                //           height: 12,
-                                //         ),
-                                //         const Text(
-                                //           'بازگشت به صفحه ورود',
-                                //           style: TextStyle(color: Colors.grey),
-                                //         ),
-                                //         const SizedBox(
-                                //           height: 14,
-                                //         ),
-                                //         Padding(
-                                //           padding: const EdgeInsets.only(left: 28.0),
-                                //           child: MaterialButton(
-                                //             minWidth: 150,
-                                //             shape: RoundedRectangleBorder(
-                                //                 borderRadius: BorderRadius.circular(10)
-                                //             ),
-                                //             height: 56,
-                                //             color: const Color(0xff2d3653),
-                                //             onPressed: () {},
-                                //             child: const Text(
-                                //               'بازگشت',
-                                //               style: TextStyle(color: Colors.white),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
+
+
+                                SignDetailsButton(
+                                  valueTitle: '',
+                                  valueDescription: "",
+                                  valueTextButton: "بازگشت",
+                                  onPressed: ()=> Navigator.pop(context), ),
+
 
                                 ClipRRect(
                                   borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(22)),
@@ -290,29 +232,6 @@ class RememberCode extends StatelessWidget {
                           ),
                         ),
                     ],
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  margin: EdgeInsets.all(_isWeb ? 0 : 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
-                    color: null,
-                    boxShadow: [
-                      BoxShadow(
-                        spreadRadius: 1,
-                        offset: const Offset(0, 0),
-                        color: Colors.grey[600]!,
-                        blurRadius: 90,
-                      ),
-                    ],
-                    border: Border.all(
-                      width: 4,
-                      color: Colors.white,
-                    ),
-                    image: const DecorationImage(
-                        image: NetworkImage(
-                          '${Links.filesUrl}/bg.jpg',
-                        ),
-                        fit: BoxFit.cover),
                   ),
                 ),
               ),

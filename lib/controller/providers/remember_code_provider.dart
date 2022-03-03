@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
-class RememberCodeProvider extends ChangeNotifier{
+class PinCodeProvider extends ChangeNotifier{
 
   bool sendCode = false;
 

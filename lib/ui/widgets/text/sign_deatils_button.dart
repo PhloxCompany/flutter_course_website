@@ -6,17 +6,13 @@ class SignDetailsButton extends StatelessWidget {
   final String valueDescription;
   final String valueTextButton;
   final VoidCallback onPressed;
-  final double? left;
-  final double? right;
 
   const SignDetailsButton(
       {Key? key,
       required this.valueTitle,
       required this.valueDescription,
       required this.valueTextButton,
-      required this.onPressed,
-      required this.right,
-      required this.left,})
+      required this.onPressed,})
       : super(key: key);
 
   @override
@@ -24,8 +20,7 @@ class SignDetailsButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 256,
-      child: Padding(
-        padding: EdgeInsets.only(left: left! , right: right!),
+      child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,

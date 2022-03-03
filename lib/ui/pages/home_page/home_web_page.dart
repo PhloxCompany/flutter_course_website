@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
+import 'package:flutter_course_phlox/ui/pages/home_page/custom_app_bar.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/item_headline.dart';
+import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
+import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
@@ -41,13 +44,12 @@ class _HomeWebPageState extends State<HomeWebPage> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             color: null,
-            border: Border.all(color: Colors.black, width: 4),
+            border: Border.all(color: Colors.white, width: 1),
             boxShadow: [
               BoxShadow(
                 spreadRadius: 1,
-                offset: const Offset(0, 0),
-                color: Colors.grey[600]!,
-                blurRadius: 90,
+                color: Colors.grey.shade900.withOpacity(.7),
+                blurRadius: 60,
               ),
             ],
             image: const DecorationImage(
@@ -58,27 +60,27 @@ class _HomeWebPageState extends State<HomeWebPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                 Flexible(
-                   child: PhloxAnime(
-                      millisecondsDelay: 100,
-                      child: BoldText(text: "شرکت برنامه نویسی فلوکس",
-                          textSize : _isWeb ? 18 : 12
-                      )),
-                 ),
+
+            // app bar
+            CustomAppBar(
+              actions: [
                 PhloxAnime(
-                    millisecondsDelay: 300,
-                    child: BorderButtonWidget(onPressed: () {}, text: "ثبت نام",
-                        padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
-                    ))
+                  millisecondsDelay: 300,
+                  child: BorderButtonWidget(
+                      onPressed: () {
+                        Navigator.pushNamed(context, SignIn.routeName);
+                      },
+                      text: "ورود",
+                      padding: EdgeInsets.symmetric(
+                          horizontal: _isWeb ? 42 : 24, vertical: 20)),
+                ),
               ],
             ),
-            const SizedBox(
-              height: 46,
-            ),
+
+            // babak image
             if (!_isWeb) _babak,
+
+            // floating header right side
             Row(
               children: [
                 Expanded(
@@ -116,9 +118,11 @@ class _HomeWebPageState extends State<HomeWebPage> {
                       children: [
                         PhloxAnime(
                             child: ButtonBlack(
-                                onPressed: () {}, text: "ثبت نام در دوره",
-                                padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
-                            ),
+                                onPressed: () {},
+                                text: "ثبت نام در دوره",
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: _isWeb ? 42 : 24,
+                                    vertical: 20)),
                             millisecondsDelay: 1500),
                         const SizedBox(
                           width: 12,
@@ -126,9 +130,10 @@ class _HomeWebPageState extends State<HomeWebPage> {
                         PhloxAnime(
                           millisecondsDelay: 1600,
                           child: BorderButtonWidget(
-                              onPressed: () {}, text: "سرفصل های دوره",
-                              padding : EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24, vertical: 20)
-                          ),
+                              onPressed: () {},
+                              text: "سرفصل های دوره",
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: _isWeb ? 42 : 24, vertical: 20)),
                         ),
                       ],
                     )
@@ -137,9 +142,11 @@ class _HomeWebPageState extends State<HomeWebPage> {
                 if (_isWeb) Expanded(child: _babak),
               ],
             ),
+
             const SizedBox(
               height: 46,
             ),
+
             const PhloxAnime(
               millisecondsDelay: 1800,
               child: ExtraBoldText(
@@ -214,117 +221,15 @@ class _HomeWebPageState extends State<HomeWebPage> {
             homeProvider.loading
                 ? const CircularProgressIndicator()
                 : ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => ItemHeadline(modelHeadline: homeProvider.listHeadlines[index]),
+                    itemBuilder: (context, index) => ItemHeadline(
+                        modelHeadline: homeProvider.listHeadlines[index]),
                     itemCount: homeProvider.listHeadlines.length,
                   ),
           ],
         ),
       ),
-    );
-  }
-
-
-  Widget _itemHeadline(BuildContext context, int index) {
-    HomeProvider homeProvider = Provider.of(context, listen: false);
-    ModelHeadline model = homeProvider.listHeadlines[index];
-
-    double width = MediaQuery.of(context).size.width;
-    bool _isWeb = width >= 1024;
-
-    return Column(
-      children: [
-        Container(
-          width: _isWeb ? 1060 : double.infinity,
-          height: 90,
-          padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 24),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              color: Colors.white,
-              image: const DecorationImage(
-                  opacity: .4,
-                  image: NetworkImage(
-                    '${Links.filesUrl}/bg.jpg',
-                  ),
-                  fit: BoxFit.fitWidth),),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: InkWell(
-            onTap: () => homeProvider.toggleListTile(model),
-            child: Row(
-              children: [
-                Expanded(child: Text(model.title)),
-                const Spacer(),
-                Text(model.time,
-                    style: const TextStyle(
-                      fontFamily: 'vazir',
-                      fontWeight: FontWeight.bold,
-                    )),
-                IconButtonWidget(
-                  icon: model.isExpanded
-                      ? Icons.arrow_drop_down_rounded
-                      : Icons.arrow_drop_up_rounded,
-                  voidCallback: () => homeProvider.toggleListTile(model),
-                ),
-              ],
-            ),
-          ),
-        ),
-        if(model.isExpanded)
-          PhloxAnimations(
-            fromX: 300,
-              fromOpacity: 0,
-              child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              color: Colors.white,
-              image: const DecorationImage(
-                  opacity: .1,
-                  image: NetworkImage(
-                    '${Links.filesUrl}/bg.jpg',
-                  ),
-                  fit: BoxFit.fitWidth),),
-            padding: const EdgeInsets.all(16),
-            margin: EdgeInsets.symmetric(horizontal: _isWeb ? 44 : 26, vertical: 12),
-            child: Column(
-              children:  [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Card(
-                    margin: const EdgeInsets.all(4),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24)),
-                    color: Colors.amber,
-                    child: Stack(
-                      children: [
-                        Image.network(
-                          '${Links.filesUrl}/bg.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Center(
-                          child: IconButtonWidget(
-                            icon: Icons.play_arrow_rounded,
-                            voidCallback: () {
-                              setState(() {
-                                model.isExpanded = !model.isExpanded;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Text(model.title),
-                Text(model.complete ? "" : "در حال ضبط"),
-              ],
-            ),
-          ), duration: const Duration(
-            milliseconds: 300
-          ))
-      ],
     );
   }
 
