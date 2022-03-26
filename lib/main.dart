@@ -5,6 +5,7 @@ import 'package:flutter_course_phlox/ui/pages/errors/404page.dart';
 import 'package:flutter_course_phlox/ui/pages/pin_code/pin_code_page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
+import 'package:flutter_course_phlox/ui/test/login_with_phone_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -40,6 +41,7 @@ class _MyApp extends StatelessWidget {
       PinCode.routeName: (context) => const PinCode(),
       SignIn.routeName: (context) => const SignIn(),
       Page404.routeName: (context) => const Page404(),
+      LoginWithPhoneUi.routeName: (context) => const LoginWithPhoneUi(),
     };
     return MaterialApp(
       title: 'Flutter course | Phlox company',
@@ -50,7 +52,7 @@ class _MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
       ),
       routes: _routes,
-      initialRoute: HomePage.routeName,
+      initialRoute: LoginWithPhoneUi.routeName,
       onGenerateRoute: (settings) {
         //
         // print(settings);

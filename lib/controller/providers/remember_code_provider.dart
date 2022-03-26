@@ -6,6 +6,8 @@ class PinCodeProvider extends ChangeNotifier{
 
   bool sendCode = false;
 
+  bool sendAgainCode = false;
+
   void isSentCode(value){
     sendCode = value;
     notifyListeners();
