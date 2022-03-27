@@ -5,6 +5,7 @@ import 'package:flutter_course_phlox/ui/pages/home_page/custom_app_bar.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/item_headline.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
+import 'package:flutter_course_phlox/ui/test/login_with_phone_ui.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
@@ -68,7 +69,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
                   millisecondsDelay: 300,
                   child: BorderButtonWidget(
                       onPressed: () {
-                        Navigator.pushNamed(context, SignIn.routeName);
+                        Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
                       },
                       text: "ورود",
                       padding: EdgeInsets.symmetric(

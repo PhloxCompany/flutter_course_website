@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/controller/providers/remember_code_provider.dart';
+import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -18,7 +18,7 @@ class PinCode extends StatelessWidget {
         .of(context)
         .size
         .width;
-    PinCodeProvider pinCodeProvider = Provider.of(context);
+    LoginAndEnterCodeProvider pinCodeProvider = Provider.of(context);
     bool _isWeb = width >= 1024;
     return WillPopScope(
       onWillPop: () async{
