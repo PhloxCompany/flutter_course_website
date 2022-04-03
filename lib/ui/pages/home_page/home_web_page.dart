@@ -28,7 +28,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeProvider>().requestHeadline();
+    Future.microtask(() => context.read<HomeProvider>().requestHeadline());
   }
 
   @override
@@ -61,7 +61,6 @@ class _HomeWebPageState extends State<HomeWebPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // app bar
             CustomAppBar(
               actions: [

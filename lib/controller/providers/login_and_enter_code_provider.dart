@@ -21,7 +21,7 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  late Timer timer;
+  Timer? timer;
   int start = 60;
 
   void startTimer() {
@@ -94,7 +94,7 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
       if(data['result']){
         isSentCode(!sendCode);
         start = 60;
-        timer.cancel();
+        timer!.cancel();
         Navigator.pop(context);
       }
       Utils.showToast(data['msg']);
@@ -102,6 +102,15 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
 
     loginAndEnterCodeRequest = false;
     notifyListeners();
+  }
+
+  void cancelTimer() {
+    if(timer != null){
+
+      if(timer!.isActive){
+        timer!.cancel();
+      }
+    }
   }
 
 }

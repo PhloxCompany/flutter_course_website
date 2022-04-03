@@ -24,7 +24,7 @@ class PinCode extends StatelessWidget {
       onWillPop: () async{
         pinCodeProvider.sendCode = false;
         pinCodeProvider.start = 60;
-        pinCodeProvider.timer.cancel();
+        pinCodeProvider.timer!.cancel();
         Navigator.pop(context);
         return true;
       },
@@ -215,7 +215,7 @@ class PinCode extends StatelessWidget {
                                     onPressed: () async {
                                       pinCodeProvider.sendCode = false;
                                       pinCodeProvider.start = 60;
-                                      pinCodeProvider.timer.cancel();
+                                      pinCodeProvider.timer!.cancel();
                                       Navigator.pop(context);
                                       },
                                     child: const Text(
@@ -257,7 +257,7 @@ class PinCode extends StatelessWidget {
                                     onPressed: (){
                                       pinCodeProvider.sendCode = false;
                                       pinCodeProvider.start = 60;
-                                      pinCodeProvider.timer.cancel();
+                                      pinCodeProvider.timer!.cancel();
                                       Navigator.pop(context);
                                     },
                                   ),
