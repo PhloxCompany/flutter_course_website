@@ -227,6 +227,15 @@ class _HomeWebPageState extends State<HomeWebPage> {
                         modelHeadline: homeProvider.listHeadlines[index]),
                     itemCount: homeProvider.listHeadlines.length,
                   ),
+
+            const SizedBox(height: 30,),
+
+            const Text("شماره تماس : 09393363664",style: TextStyle(
+              fontFamily: "vazir"
+            ),)
+
+
+
           ],
         ),
       ),
