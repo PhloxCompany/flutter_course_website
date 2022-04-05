@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 void main(){
-  runApp(MaterialApp(home: VideoTest2(),));
+  runApp(const MaterialApp(home: VideoTest2(),));
 }
 
 class VideoTest2 extends StatefulWidget {
@@ -44,7 +44,7 @@ class _VideoTest2State extends State<VideoTest2> {
             chewieController!
                 .videoPlayerController.value.isInitialized ? Chewie(
           controller: chewieController!,
-        ) : CircularProgressIndicator(),
+        ) : const CircularProgressIndicator(),
       ),
     );
   }

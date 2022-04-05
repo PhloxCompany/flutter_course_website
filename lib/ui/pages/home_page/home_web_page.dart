@@ -1,20 +1,16 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
-import 'package:flutter_course_phlox/model/model_headline.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/custom_app_bar.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/item_headline.dart';
-import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
-import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:flutter_course_phlox/ui/test/login_with_phone_ui.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
-import 'package:flutter_course_phlox/ui/widgets/button/icon_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
 import 'package:flutter_course_phlox/utils/links.dart';
-import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
 
 class HomeWebPage extends StatefulWidget {
@@ -28,6 +24,10 @@ class _HomeWebPageState extends State<HomeWebPage> {
   @override
   void initState() {
     super.initState();
+    final loader = html.document.getElementsByClassName('loading');
+    if(loader.isNotEmpty) {
+      loader.first.remove();
+    }
     Future.microtask(() => context.read<HomeProvider>().requestHeadline());
   }
 

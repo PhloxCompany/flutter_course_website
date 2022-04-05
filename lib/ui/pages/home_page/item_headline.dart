@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
-import 'package:flutter_course_phlox/ui/widgets/button/icon_button_widget.dart';
-import 'package:flutter_course_phlox/utils/links.dart';
 import 'package:provider/provider.dart';
 
 class ItemHeadline extends StatelessWidget {
@@ -49,7 +47,7 @@ class ItemHeadline extends StatelessWidget {
                     ],
                   ));
             },
-            body: ListTile(
+            body: const ListTile(
               title: Text('Description text',
                   style: TextStyle(color: Colors.black)),
             ),

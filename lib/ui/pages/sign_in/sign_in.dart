@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/pin_code/pin_code_page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
-import 'package:provider/provider.dart';
 
 import '../../../utils/links.dart';
 import 'dart:math' as math;

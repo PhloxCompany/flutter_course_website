@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
-import 'package:flutter_course_phlox/ui/pages/errors/404page.dart';
+import 'package:flutter_course_phlox/ui/pages/errors/page404.dart';
 import 'package:flutter_course_phlox/ui/pages/pin_code/pin_code_page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:flutter_course_phlox/ui/test/login_with_phone_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:device_preview/device_preview.dart';
 
 import 'ui/pages/home_page/home_page.dart';
 import 'ui/pages/sign_up/sign_up.dart';

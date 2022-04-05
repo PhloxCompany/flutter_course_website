@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 
 class TextLiWidget extends StatelessWidget {
 

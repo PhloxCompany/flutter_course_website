@@ -34,7 +34,7 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
           sendCode = false;
           notifyListeners();
         } else {
-          print('${start ~/ 60} : ${start % 60}');
+          debugPrint('${start ~/ 60} : ${start % 60}');
           start--;
           notifyListeners();
         }

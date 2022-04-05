@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/utils/show_toast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'dart:math' as math; // import this
 import '../../controller/providers/login_and_enter_code_provider.dart';
-import '../../utils/links.dart';
 import '../widgets/animate/phlox_anime.dart';
 import '../widgets/text/bold_text.dart';
 import '../widgets/text/extra_bold_text.dart';
-import '../widgets/text/sign_deatils_button.dart';
 
 class LoginWithPhoneUi extends StatefulWidget {
   const LoginWithPhoneUi({Key? key}) : super(key: key);
@@ -33,20 +29,20 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
         _controller.forward();
       }
     });
-  var _laecp;
+  late LoginAndEnterCodeProvider _loginAndEnterCodeProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _laecp = Provider.of<LoginAndEnterCodeProvider>(context);
+    _loginAndEnterCodeProvider = Provider.of<LoginAndEnterCodeProvider>(context);
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _laecp.sendCode = false;
-    _laecp.start = 60;
-    _laecp.cancelTimer();
+    _loginAndEnterCodeProvider.sendCode = false;
+    _loginAndEnterCodeProvider.start = 60;
+    _loginAndEnterCodeProvider.cancelTimer();
     super.dispose();
   }
 
@@ -118,7 +114,7 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                               BoldText(
                                 text:
                                     'زندگی در علم است و آسودگی در دانستن\nبرای دیدن جزئیات حساب خود، وارد شوید!',
-                                color: Color(0xFF616161),
+                                color: const Color(0xFF616161),
                                 textSize: _isWeb ? 18 : 14,
                               ),
                               const SizedBox(
@@ -206,7 +202,7 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                                 .text = value;
                                           },
                                           beforeTextPaste: (text) {
-                                            print("Allowing to paste $text");
+                                            debugPrint("Allowing to paste $text");
                                             //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                                             //but you can show anything you want here, like your pop up saying wrong paste format or etc
                                             return true;

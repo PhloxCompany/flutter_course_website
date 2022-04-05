@@ -26,7 +26,7 @@ class _TestAnimationPageState extends State<TestAnimationPage> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(),
     );
   }

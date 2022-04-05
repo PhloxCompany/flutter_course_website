@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
-import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
@@ -143,11 +142,11 @@ class PinCode extends StatelessWidget {
                                       const Duration(milliseconds: 300),
                                       enableActiveFill: true,
                                       onCompleted: (v) {
-                                        print("Completed");
+                                        debugPrint("Completed");
                                       },
                                       onChanged: (value) {},
                                       beforeTextPaste: (text) {
-                                        print("Allowing to paste $text");
+                                        debugPrint("Allowing to paste $text");
                                         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                                         //but you can show anything you want here, like your pop up saying wrong paste format or etc
                                         return true;
