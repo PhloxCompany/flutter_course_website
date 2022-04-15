@@ -20,7 +20,7 @@ class HomeProvider extends ChangeNotifier{
   Future<void> requestHeadline() async {
     Response response =
     await _dio.get("?api=headline");
-    debugPrint(response.data);
+    debugPrint(response.data.toString());
     if (response.statusCode == 200) {
       var _data = json.decode(response.data);
       var _responseListHeadline = _data['list'];

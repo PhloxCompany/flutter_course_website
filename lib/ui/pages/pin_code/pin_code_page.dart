@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
+import 'package:flutter_course_phlox/utils/colors.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math; // import this
@@ -13,6 +15,8 @@ class PinCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    GlobalSettingProvider settingProvider = Provider.of(context,listen: false);
     double width = MediaQuery
         .of(context)
         .size
@@ -30,7 +34,9 @@ class PinCode extends StatelessWidget {
       child: Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-            backgroundColor: Colors.amber[50],
+            backgroundColor: settingProvider.darkMode
+          ? AppColors.blueBgDark
+              : Colors.amber.shade50,
             body: Center(
               child: SingleChildScrollView(
                 child: PhloxAnime(
@@ -42,7 +48,9 @@ class PinCode extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      color: Colors.amber[50],
+                      color: settingProvider.darkMode
+                    ? AppColors.blueBgDark
+                        : Colors.amber.shade50,
                       boxShadow: [
                         BoxShadow(
                           spreadRadius: 1,

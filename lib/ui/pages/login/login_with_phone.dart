@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
+import 'package:flutter_course_phlox/utils/colors.dart';
 import 'package:flutter_course_phlox/utils/show_toast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import '../../controller/providers/login_and_enter_code_provider.dart';
-import '../widgets/animate/phlox_anime.dart';
-import '../widgets/text/bold_text.dart';
-import '../widgets/text/extra_bold_text.dart';
+import '../../../controller/providers/login_and_enter_code_provider.dart';
+import '../../widgets/animate/phlox_anime.dart';
+import '../../widgets/text/bold_text.dart';
+import '../../widgets/text/extra_bold_text.dart';
 
 class LoginWithPhoneUi extends StatefulWidget {
   const LoginWithPhoneUi({Key? key}) : super(key: key);
-  static const routeName = '/login_with_phone_ui';
+  static const routeName = '/login';
 
   @override
   State<LoginWithPhoneUi> createState() => _LoginWithPhoneUiState();
@@ -18,28 +20,20 @@ class LoginWithPhoneUi extends StatefulWidget {
 class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
     with SingleTickerProviderStateMixin {
   bool selected = false;
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
-    reverseDuration: const Duration(seconds: 3),
-    vsync: this,
-  )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _controller.forward();
-      }
-    });
+  AnimationController? _controller;
+
   late LoginAndEnterCodeProvider _loginAndEnterCodeProvider;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _loginAndEnterCodeProvider = Provider.of<LoginAndEnterCodeProvider>(context);
+    _loginAndEnterCodeProvider =
+        Provider.of<LoginAndEnterCodeProvider>(context);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     _loginAndEnterCodeProvider.sendCode = false;
     _loginAndEnterCodeProvider.start = 60;
     _loginAndEnterCodeProvider.cancelTimer();
@@ -49,7 +43,18 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
   @override
   void initState() {
     super.initState();
-    _controller.forward();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      reverseDuration: const Duration(seconds: 3),
+      vsync: this,
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller!.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller!.forward();
+        }
+      });
+    _controller?.forward();
   }
 
   @override
@@ -57,10 +62,14 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
     double width = MediaQuery.of(context).size.width;
     LoginAndEnterCodeProvider loginAndEnterCodeProvider = Provider.of(context);
     bool _isWeb = width >= 1024;
+
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: Colors.amber[50],
+          backgroundColor: settingProvider.darkMode
+              ? AppColors.blueBgDark
+              : Colors.amber.shade50,
           body: Center(
             child: SingleChildScrollView(
               child: PhloxAnime(
@@ -72,12 +81,16 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: Colors.amber[50],
+                    color: settingProvider.darkMode
+                        ? AppColors.blueBg
+                        : Colors.amber.shade50,
                     boxShadow: [
                       BoxShadow(
                         spreadRadius: 1,
                         offset: const Offset(0, 0),
-                        color: Colors.grey[600]!,
+                        color: settingProvider.darkMode
+                            ? AppColors.blueBg
+                            : Colors.grey.shade700,
                         blurRadius: 90,
                       ),
                     ],
@@ -85,11 +98,13 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                       width: 1,
                       color: Colors.white,
                     ),
-                    image: const DecorationImage(
-                        image: AssetImage(
-                          'assets/images/test_background.png',
-                        ),
-                        fit: BoxFit.cover),
+                    image: settingProvider.darkMode
+                        ? null
+                        : const DecorationImage(
+                            image: AssetImage(
+                              'assets/images/test_background.png',
+                            ),
+                            fit: BoxFit.cover),
                   ),
                   child: Row(
                     children: [
@@ -106,14 +121,12 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                     ? "ثبت نام کنید"
                                     : 'کد را وارد کنید',
                                 textSize: _isWeb ? 82 : 50,
-                                color: Colors.black,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
                               BoldText(
-                                text:
-                                    'زندگی در علم است و آسودگی در دانستن\nبرای دیدن جزئیات حساب خود، وارد شوید!',
+                                text: 'برای دیدن جزئیات حساب خود، وارد شوید!',
                                 color: const Color(0xFF616161),
                                 textSize: _isWeb ? 18 : 14,
                               ),
@@ -186,7 +199,7 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                                 true) {
                                               loginAndEnterCodeProvider
                                                   .enterCodeController.text = v;
-                                              _controller.stop();
+                                              _controller!.stop();
 
                                               await loginAndEnterCodeProvider
                                                   .enterCodeRequest(context, v)
@@ -202,7 +215,8 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                                 .text = value;
                                           },
                                           beforeTextPaste: (text) {
-                                            debugPrint("Allowing to paste $text");
+                                            debugPrint(
+                                                "Allowing to paste $text");
                                             //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                                             //but you can show anything you want here, like your pop up saying wrong paste format or etc
                                             return true;
@@ -280,15 +294,17 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                   minWidth: double.infinity,
                                   height: 62,
                                   onPressed: () {
-                                    _controller.dispose();
                                     loginAndEnterCodeProvider.sendCode = false;
                                     loginAndEnterCodeProvider.start = 60;
                                     loginAndEnterCodeProvider.cancelTimer();
                                     Navigator.pop(context);
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     'بازگشت',
-                                    style: TextStyle(color: Color(0xff2d3653)),
+                                    style: TextStyle(
+                                        color: settingProvider.darkMode
+                                            ? Colors.blueGrey.shade50
+                                            : Color(0xff2d3653)),
                                   ),
                                 ),
                               ),
@@ -301,57 +317,13 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                             child: AnimatedBuilder(
                                 builder: (BuildContext context, Widget? child) {
                                   return Transform.translate(
-                                    offset: Offset(0, _controller.value * 8),
+                                    offset: Offset(0, _controller!.value * 8),
                                     child: child,
                                   );
                                 },
-                                animation: _controller,
+                                animation: _controller!,
                                 child: Image.asset(
-                                    'assets/images/bakground_login.png'))
-                            // PhloxAnime(
-                            //   millisecondsDelay: 700,
-                            //   child: Column(
-                            //     mainAxisSize: MainAxisSize.max,
-                            //     crossAxisAlignment: CrossAxisAlignment.end,
-                            //     mainAxisAlignment: MainAxisAlignment.start,
-                            //     children: [
-                            //
-                            //       // ClipRRect(
-                            //       //   borderRadius: const BorderRadius.only(topLeft: Radius.circular(22)),
-                            //       //   child: Transform(
-                            //       //     alignment: Alignment.center,
-                            //       //     transform: Matrix4.rotationX(math.pi),
-                            //       //     child: Image.network(
-                            //       //         'https://api.phloxcompany.com/flutter_course/files/shape_bottom.png'),
-                            //       //   ),
-                            //       // ),
-                            //       SignDetailsButton(
-                            //         valueTitle: '',
-                            //         valueDescription: "",
-                            //         valueTextButton: "بازگشت",
-                            //         onPressed: (){
-                            //           pinCodeProvider.sendCode = false;
-                            //           pinCodeProvider.start = 60;
-                            //           pinCodeProvider.timer.cancel();
-                            //           Navigator.pop(context);
-                            //         },
-                            //       ),
-                            //
-                            //
-                            //       // ClipRRect(
-                            //       //   borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(22)),
-                            //       //   child: Transform(
-                            //       //     alignment: Alignment.center,
-                            //       //     transform: Matrix4.rotationX(math.pi),
-                            //       //     child: Image.network(
-                            //       //         'https://api.phloxcompany.com/flutter_course/files/shape_top.png'),
-                            //       //   ),
-                            //       // ),
-                            //
-                            //     ],
-                            //   ),
-                            // ),
-                            ),
+                                    'assets/images/bakground_login.png'))),
                     ],
                   ),
                 ),

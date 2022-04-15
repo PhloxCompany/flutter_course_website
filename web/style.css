@@ -20,7 +20,7 @@ body {
   width: 300px;
 }
 
-.progress-value {
+.p rogress-value {
   animation: load 70s normal forwards;
   box-shadow: 0 10px 40px -10px #fff;
   border-radius: 100px;

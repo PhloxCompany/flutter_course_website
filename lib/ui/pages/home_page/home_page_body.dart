@@ -1,26 +1,13 @@
-import 'dart:html' as html;
-import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
-import 'package:flutter_course_phlox/ui/pages/home_page/custom_app_bar.dart';
-import 'package:flutter_course_phlox/ui/pages/home_page/item_headline.dart';
-import 'package:flutter_course_phlox/ui/test/login_with_phone_ui.dart';
-import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
-import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
-import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
-import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
-import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
-import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
-import 'package:flutter_course_phlox/utils/links.dart';
-import 'package:provider/provider.dart';
+part of 'home_page.dart';
 
-class HomeWebPage extends StatefulWidget {
-  const HomeWebPage({Key? key}) : super(key: key);
+class HomePageBody extends StatefulWidget {
+  const HomePageBody({Key? key}) : super(key: key);
 
   @override
-  State<HomeWebPage> createState() => _HomeWebPageState();
+  State<HomePageBody> createState() => _HomePageBodyState();
 }
 
-class _HomeWebPageState extends State<HomeWebPage> {
+class _HomePageBodyState extends State<HomePageBody> {
   @override
   void initState() {
     super.initState();
@@ -34,6 +21,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider = Provider.of(context, listen: true);
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
     return Padding(
@@ -44,8 +32,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
             EdgeInsets.symmetric(horizontal: _isWeb ? 68 : 32, vertical: 32),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            color: null,
-            border: Border.all(color: Colors.white, width: 1),
+            border: Border.all(color: settingProvider.darkMode ? Colors.black : Colors.white, width: 1),
             boxShadow: [
               BoxShadow(
                 spreadRadius: 1,
@@ -53,7 +40,8 @@ class _HomeWebPageState extends State<HomeWebPage> {
                 blurRadius: 60,
               ),
             ],
-            image: const DecorationImage(
+            color: settingProvider.darkMode ? Colors.blueGrey.shade900 : null,
+            image:  settingProvider.darkMode ? null : const DecorationImage(
                 image: NetworkImage(
                   '${Links.filesUrl}/bg.jpg',
                 ),
@@ -64,6 +52,12 @@ class _HomeWebPageState extends State<HomeWebPage> {
             // app bar
             CustomAppBar(
               actions: [
+                const Spacer(),
+                IconButton(onPressed: () => settingProvider.changeThemeMode(), icon: Icon(
+                  settingProvider.darkMode ?
+                      Icons.light_mode:
+                      Icons.dark_mode
+                )),
                 PhloxAnime(
                   millisecondsDelay: 300,
                   child: BorderButtonWidget(
@@ -96,7 +90,6 @@ class _HomeWebPageState extends State<HomeWebPage> {
                       child: ExtraBoldText(
                         text: "متخصص فلاتر شو",
                         textSize: _isWeb ? 82 : 32,
-                        color: Colors.black,
                       ),
                     ),
                     const PhloxAnime(
@@ -130,7 +123,7 @@ class _HomeWebPageState extends State<HomeWebPage> {
                         PhloxAnime(
                           millisecondsDelay: 1600,
                           child: BorderButtonWidget(
-                              onPressed: () {},
+                              onPressed: () => settingProvider.scrollToHeadline(),
                               text: "سرفصل های دوره",
                               padding: EdgeInsets.symmetric(
                                   horizontal: _isWeb ? 42 : 24, vertical: 20)),

@@ -33,7 +33,6 @@ class SignDetailsButton extends StatelessWidget {
             ),
             Text(
               valueDescription,
-              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(
               height: 14,
@@ -47,7 +46,6 @@ class SignDetailsButton extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 valueTextButton,
-                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(

@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
+import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
+import 'package:flutter_course_phlox/ui/widgets/button/button_black.dart';
+import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
+import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
+import 'package:flutter_course_phlox/utils/colors.dart';
 import 'package:flutter_course_phlox/utils/links.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import '../../../controller/providers/global_setting_provider.dart';
+import '../login/login_with_phone.dart';
 import '../../widgets/text/extra_bold_text.dart';
-import 'home_web_page.dart';
+import 'dart:html' as html;
+import 'custom_app_bar.dart';
+import 'item_headline.dart';
+
+part 'home_page_body.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,21 +24,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var settingProvider = context.watch<GlobalSettingProvider>();
     var numFormat = intl.NumberFormat("0,000");
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.amber.shade50,
+        backgroundColor: settingProvider.darkMode
+            ? AppColors.blueBgDark
+            : Colors.amber.shade50,
         body: Stack(
           children: [
             SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 90),
-              controller: ScrollController(
-                  keepScrollOffset: true, debugLabel: "home page scroll view"),
+              controller: settingProvider.scrollController,
               child: const Center(
-                child: HomeWebPage(),
+                child: HomePageBody(),
               ),
             ),
             Align(
@@ -45,13 +58,15 @@ class HomePage extends StatelessWidget {
                     width: _isWeb ? 1060 : double.infinity,
                     height: _isWeb ? 90 : 70,
                     padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 14),
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            opacity: .4,
-                            image: NetworkImage(
-                              '${Links.filesUrl}/bg.jpg',
-                            ),
-                            fit: BoxFit.fitWidth),),
+                    decoration: BoxDecoration(
+                      color: settingProvider.darkMode ? Colors.blueGrey.shade800 : null,
+                      image:  settingProvider.darkMode ? null : const DecorationImage(
+                          opacity: .4,
+                          image:NetworkImage(
+                            '${Links.filesUrl}/bg.jpg',
+                          ),
+                          fit: BoxFit.fitWidth),
+                    ),
                     child: Row(
                       children: [
                         if (width > 400) const Text("دوره آنلاین"),
@@ -61,7 +76,6 @@ class HomePage extends StatelessWidget {
                         ExtraBoldText(
                           text: "متخصص فلاتر شو",
                           textSize: _isWeb ? 32 : 18,
-                          color: Colors.black,
                         ),
                         const Spacer(),
                         Consumer<HomeProvider>(
@@ -104,18 +118,20 @@ class HomePage extends StatelessWidget {
                             child: Row(
                               children: [
                                 Consumer<HomeProvider>(
-                                    builder: (context, value, child) =>
-                                        value.modelConfigs == null
-                                            ? const CircularProgressIndicator()
-                                            : Text(
-                                                numFormat.format(double.parse(value
-                                                    .modelConfigs!
-                                                    .coursePriceWithDiscount!),),
-                                                style: TextStyle(
-                                                    fontSize: _isWeb ? 22 : 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'vazir'),
-                                              ),),
+                                  builder: (context, value, child) =>
+                                      value.modelConfigs == null
+                                          ? const CircularProgressIndicator()
+                                          : Text(
+                                              numFormat.format(
+                                                double.parse(value.modelConfigs!
+                                                    .coursePriceWithDiscount!),
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: _isWeb ? 22 : 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'vazir'),
+                                            ),
+                                ),
                                 // Text(
                                 //   " هزار تومان",
                                 //   style: TextStyle(

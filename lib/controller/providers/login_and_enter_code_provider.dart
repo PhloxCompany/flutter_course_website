@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_course_phlox/utils/show_toast.dart';
 
-import '../request_controller.dart';
+import '../api_service.dart';
 
 class LoginAndEnterCodeProvider extends ChangeNotifier{
 
@@ -59,7 +59,7 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
       loginAndEnterCodeRequest = true;
       notifyListeners();
       Response response =
-      await RequestController.dio.post("login_phone.php?api=phone" , data: FormData.fromMap({
+      await ApiService.dio.post("login_phone.php?api=phone" , data: FormData.fromMap({
         'phone' : loginController.text
       }));
       debugPrint(response.data);
@@ -84,7 +84,7 @@ class LoginAndEnterCodeProvider extends ChangeNotifier{
     loginAndEnterCodeRequest = true;
     notifyListeners();
     Response response =
-    await RequestController.dio.post("login_phone.php?api=code" , data: FormData.fromMap({
+    await ApiService.dio.post("login_phone.php?api=code" , data: FormData.fromMap({
       'code' : value,
       'phone' : loginController.text
     }));

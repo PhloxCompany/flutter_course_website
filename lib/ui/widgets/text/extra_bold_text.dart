@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class ExtraBoldText extends StatelessWidget {
   final String text;
   final double textSize;
-  final Color color;
 
-  const ExtraBoldText({Key? key, required this.text, this.textSize = 18, this.color = Colors.black}) : super(key: key);
+  const ExtraBoldText({Key? key, required this.text, this.textSize = 18}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,6 @@ class ExtraBoldText extends StatelessWidget {
       style: TextStyle(
         fontFamily: 'bold',
         fontSize: textSize,
-        color: color,
     ),);
   }
 }

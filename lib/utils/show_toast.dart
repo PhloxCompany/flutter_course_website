@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
 
+  Utils._();
   static void showToast(value , {Color backgroundColor = Colors.black , Color textColor = Colors.white}){
     Fluttertoast.showToast(
         msg: value,

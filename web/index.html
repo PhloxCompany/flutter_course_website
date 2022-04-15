@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--
-      If you are serving your web app in a path other than the root, change the
-      href value below to reflect the base path you are serving from.
-
-      The path provided below has to start and end with a slash "/" in order for
-      it to work correctly.
-
-      For more details:
-      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-      This is a placeholder for base href that will be replaced by the value of
-      the `--base-href` argument provided to `flutter build`.
-    -->
     <base href="$FLUTTER_BASE_HREF">
 
     <meta charset="UTF-8">
@@ -32,7 +19,7 @@
     <title>flutter crash course | phlox company</title>
     <link rel="manifest" href="manifest.json">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -47,7 +34,7 @@
 
 
 <script>
-      var serviceWorkerVersion = null;
+      var serviceWorkerVersion = 1;
       var scriptLoaded = false;
       function loadMainDartJs() {
         if (scriptLoaded) {
@@ -55,7 +42,7 @@
         }
         scriptLoaded = true;
         var scriptTag = document.createElement('script');
-        scriptTag.src = 'main.dart.js?version=1';
+        scriptTag.src = 'main.dart.js?v='+serviceWorkerVersion;
         scriptTag.type = 'application/javascript';
         document.body.append(scriptTag);
       }
@@ -91,6 +78,7 @@
                       // Existing service worker is still good.
                       console.log('Loading app from service worker.');
                       loadMainDartJs();
+
                     }
                   });
 
@@ -102,6 +90,9 @@
                       'Failed to load app from service worker. Falling back to plain <script> tag.',
               );
               loadMainDartJs();
+
+                var loadingElement = document.getElementById("loading");
+                loadingElement.remove();
             }
           }, 2000);
         });
