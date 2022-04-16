@@ -19,6 +19,7 @@ class ItemHeadline extends StatelessWidget {
     var settingProvider = context.read<GlobalSettingProvider>();
     return Container(
       width: _isWeb ? 1060 : double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           color: settingProvider.darkMode

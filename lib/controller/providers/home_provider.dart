@@ -11,13 +11,14 @@ class HomeProvider extends ChangeNotifier{
   final Dio _dio = Dio(BaseOptions(
     baseUrl: "https://api.phloxcompany.com/flutter_course/"
   ));
-  final List<ModelHeadline> _listHeadline = [];
+  List<ModelHeadline> _listHeadline = [];
 
   List<ModelHeadline> get listHeadlines => _listHeadline;
 
   ModelConfigs? modelConfigs;
   
   Future<void> requestHeadline() async {
+    _listHeadline = [];
     Response response =
     await _dio.get("?api=headline");
     debugPrint(response.data.toString());

@@ -11,10 +11,6 @@ class _HomePageBodyState extends State<HomePageBody> {
   @override
   void initState() {
     super.initState();
-    final loader = html.document.getElementsByClassName('loading');
-    if(loader.isNotEmpty) {
-      loader.first.remove();
-    }
     Future.microtask(() => context.read<HomeProvider>().requestHeadline());
   }
 
@@ -32,7 +28,9 @@ class _HomePageBodyState extends State<HomePageBody> {
             EdgeInsets.symmetric(horizontal: _isWeb ? 68 : 32, vertical: 32),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: settingProvider.darkMode ? Colors.black : Colors.white, width: 1),
+            border: Border.all(
+                color: settingProvider.darkMode ? Colors.black : Colors.white,
+                width: 1),
             boxShadow: [
               BoxShadow(
                 spreadRadius: 1,
@@ -41,11 +39,13 @@ class _HomePageBodyState extends State<HomePageBody> {
               ),
             ],
             color: settingProvider.darkMode ? Colors.blueGrey.shade900 : null,
-            image:  settingProvider.darkMode ? null : const DecorationImage(
-                image: NetworkImage(
-                  '${Links.filesUrl}/bg.jpg',
-                ),
-                fit: BoxFit.cover)),
+            image: settingProvider.darkMode
+                ? null
+                : const DecorationImage(
+                    image: NetworkImage(
+                      '${Links.filesUrl}/bg.jpg',
+                    ),
+                    fit: BoxFit.cover)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,16 +53,17 @@ class _HomePageBodyState extends State<HomePageBody> {
             CustomAppBar(
               actions: [
                 const Spacer(),
-                IconButton(onPressed: () => settingProvider.changeThemeMode(), icon: Icon(
-                  settingProvider.darkMode ?
-                      Icons.light_mode:
-                      Icons.dark_mode
-                )),
+                IconButton(
+                    onPressed: () => settingProvider.changeThemeMode(),
+                    icon: Icon(settingProvider.darkMode
+                        ? Icons.light_mode
+                        : Icons.dark_mode)),
                 PhloxAnime(
                   millisecondsDelay: 300,
                   child: BorderButtonWidget(
                       onPressed: () {
-                        Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
+                        Navigator.pushNamed(
+                            context, LoginWithPhoneUi.routeName);
                       },
                       text: "ورود",
                       padding: EdgeInsets.symmetric(
@@ -123,7 +124,8 @@ class _HomePageBodyState extends State<HomePageBody> {
                         PhloxAnime(
                           millisecondsDelay: 1600,
                           child: BorderButtonWidget(
-                              onPressed: () => settingProvider.scrollToHeadline(),
+                              onPressed: () =>
+                                  settingProvider.scrollToHeadline(_isWeb),
                               text: "سرفصل های دوره",
                               padding: EdgeInsets.symmetric(
                                   horizontal: _isWeb ? 42 : 24, vertical: 20)),
@@ -221,14 +223,14 @@ class _HomePageBodyState extends State<HomePageBody> {
                     itemCount: homeProvider.listHeadlines.length,
                   ),
 
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
 
-            const Text("شماره تماس : 09393363664",style: TextStyle(
-              fontFamily: "vazir"
-            ),)
-
-
-
+            const Text(
+              "شماره تماس : 09393363664",
+              style: TextStyle(fontFamily: "vazir"),
+            )
           ],
         ),
       ),

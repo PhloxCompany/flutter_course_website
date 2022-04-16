@@ -16,6 +16,7 @@ class GlobalSettingProvider extends ChangeNotifier {
 
   ScrollController scrollController = ScrollController();
 
-  void scrollToHeadline() => scrollController.animateTo(800,
-      duration: const Duration(seconds: 2), curve: Curves.ease);
+  void scrollToHeadline(bool web) =>
+      scrollController.animateTo(web ? 700 : 1200,
+          duration: const Duration(seconds: 2), curve: Curves.ease);
 }
