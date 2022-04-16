@@ -16,7 +16,7 @@ class PhloxAnime extends StatelessWidget {
         fromY: -60,
         toY: 0,
         fromOpacity: 0,
-        delay: Duration(milliseconds: millisecondsDelay),
+        wait: Duration(milliseconds: millisecondsDelay),
         toOpacity: 1,
         child: child);
   }
