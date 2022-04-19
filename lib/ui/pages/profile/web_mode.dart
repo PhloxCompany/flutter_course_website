@@ -12,32 +12,29 @@ class _WebMode extends StatelessWidget {
     GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
     return Row(
       children: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-                4,
-                    (index) => RotatedBox(
-                  quarterTurns: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 60, bottom: 20),
-                    child: Column(
-                      children: [
-                        const Text('Home'),
-                        Container(
-                          width: 30,
-                          height: 1,
-                          color: settingProvider.darkMode
-                              ? Colors.white
-                              : Colors.black,
-                        )
-                      ],
-                    ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: List.generate(
+              4,
+                  (index) => RotatedBox(
+                quarterTurns: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 60, bottom: 20),
+                  child: Column(
+                    children: [
+                      const Text('Home'),
+                      Container(
+                        width: 30,
+                        height: 1,
+                        color: settingProvider.darkMode
+                            ? Colors.white
+                            : Colors.black,
+                      )
+                    ],
                   ),
-                )),
-          ),
+                ),
+              )),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
