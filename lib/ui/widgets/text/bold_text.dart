@@ -13,6 +13,7 @@ class BoldText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+
           fontFamily: 'sans_bold',
           fontSize: textSize,
           fontWeight: FontWeight.w100),

@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
-import 'package:phlox_drawer/controller/phlox_drawer_controller.dart';
+import 'package:flutter_course_phlox/ui/pages/profile/profile_items/exit_account.dart';
+import 'package:flutter_course_phlox/ui/pages/profile/profile_page.dart';
+import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/colors.dart';
 
 class ProfileMobileModeProvider extends ChangeNotifier {
+
+  PhloxAnimationsController animationBackground = PhloxAnimationsController();
+  PhloxAnimationsController profileAnimationItemMenu = PhloxAnimationsController();
+  PhloxAnimationsController profileAnimationText = PhloxAnimationsController();
+  PhloxAnimationsController profileAnimationExpanded = PhloxAnimationsController();
+
+  int indexPage = 0;
+
+  changeIndex(index){
+    indexPage = index;
+    notifyListeners();
+    // animationBackground = PhloxAnimationsController();
+    // // profileAnimationItemMenu = PhloxAnimationsController();
+    // profileAnimationText = PhloxAnimationsController();
+    // profileAnimationExpanded = PhloxAnimationsController();
+  }
+
   List listBottomSheet = [
     {'title': 'پروفایل', 'icon': Icons.person},
     {'title': 'ارتباط با ما', 'icon': Icons.supervised_user_circle_outlined},
@@ -14,7 +33,6 @@ class ProfileMobileModeProvider extends ChangeNotifier {
   ];
 
   //double turns = 0;
-  PhloxDrawerController controller = PhloxDrawerController();
   bool isClicked = false;
   AnimationController? animationController;
 
@@ -75,7 +93,26 @@ class ProfileMobileModeProvider extends ChangeNotifier {
                 title: Text(listBottomSheet[index]['title'] , style: TextStyle(color: listBottomSheet[index]['color']),),
                 onTap: () {
                   Navigator.pop(context);
-                  debugPrint('click');
+                  if(index == indexPage){
+                    return;
+                  }
+                  indexPage = index;
+                  // animationBackground.reverse();
+                  // profileAnimationItemMenu.reverse();
+                  // profileAnimationText.reverse();
+                  // profileAnimationExpanded.reverse();
+                  // profileAnimationExpanded.statusListener =  (status) {
+                  //   if(status == AnimationStatus.dismissed){
+                  //     print('ok');
+                  //     notifyListeners();
+                  //     animationBackground.forward();
+                  //     profileAnimationItemMenu.forward();
+                  //     profileAnimationText.forward();
+                  //     profileAnimationExpanded.forward();
+                  //   }
+                  //   profileAnimationText = PhloxAnimationsController();
+                  //   profileAnimationExpanded = PhloxAnimationsController();
+                  // };
                 },
               ),
             );
