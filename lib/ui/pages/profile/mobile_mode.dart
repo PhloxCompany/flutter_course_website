@@ -13,64 +13,16 @@ class _MobileModeState extends State<_MobileMode> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
+    if(_isWeb){
+      context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
+      context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
+    }
     ProfileMobileModeProvider mobileModeProvider = Provider.of(context);
     GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
-    mobileModeProvider.profileAnimationText = PhloxAnimationsController();
-    mobileModeProvider.profileAnimationExpanded = PhloxAnimationsController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
       child: Column(
         children: [
-          Row(
-            children: [
-                Card(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: InkWell(
-                    onTap: () {
-                      mobileModeProvider.checkClickMode(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: AnimatedIcon(
-                        icon: AnimatedIcons.menu_close,
-                        progress: mobileModeProvider.animationController!,
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              //),
-              const SizedBox(
-                width: 10,
-              ),
-              const BoldText(
-                text: "شرکت برنامه نویسی فلوکس",
-              ),
-              const Expanded(child: SizedBox()),
-              Card(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                child: InkWell(
-                  onTap: () {
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
           PhloxAnime(
             phloxAnimationsController: mobileModeProvider.profileAnimationText,
             millisecondsDelay: 700,

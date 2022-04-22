@@ -19,10 +19,6 @@ class ProfileMobileModeProvider extends ChangeNotifier {
   changeIndex(index){
     indexPage = index;
     notifyListeners();
-    // animationBackground = PhloxAnimationsController();
-    // // profileAnimationItemMenu = PhloxAnimationsController();
-    // profileAnimationText = PhloxAnimationsController();
-    // profileAnimationExpanded = PhloxAnimationsController();
   }
 
   List listBottomSheet = [
@@ -93,26 +89,30 @@ class ProfileMobileModeProvider extends ChangeNotifier {
                 title: Text(listBottomSheet[index]['title'] , style: TextStyle(color: listBottomSheet[index]['color']),),
                 onTap: () {
                   Navigator.pop(context);
+
                   if(index == indexPage){
                     return;
                   }
-                  indexPage = index;
-                  // animationBackground.reverse();
-                  // profileAnimationItemMenu.reverse();
-                  // profileAnimationText.reverse();
-                  // profileAnimationExpanded.reverse();
-                  // profileAnimationExpanded.statusListener =  (status) {
-                  //   if(status == AnimationStatus.dismissed){
-                  //     print('ok');
-                  //     notifyListeners();
-                  //     animationBackground.forward();
-                  //     profileAnimationItemMenu.forward();
-                  //     profileAnimationText.forward();
-                  //     profileAnimationExpanded.forward();
-                  //   }
-                  //   profileAnimationText = PhloxAnimationsController();
-                  //   profileAnimationExpanded = PhloxAnimationsController();
-                  // };
+                  if(profileAnimationExpanded.animationStatus == AnimationStatus.forward){
+                    return;
+                  }
+                  if(profileAnimationExpanded.animationStatus == AnimationStatus.reverse){
+                    return;
+                  }
+                  animationBackground.reverse();
+                  debugPrint('ok');
+                  profileAnimationText.reverse();
+                  profileAnimationExpanded.reverse();
+                  profileAnimationExpanded.statusListener =  (status) {
+                    if(status == AnimationStatus.dismissed){
+                      changeIndex(index);
+                      animationBackground.forward();
+                      profileAnimationText.forward();
+                      profileAnimationExpanded.forward();
+                    }
+                    profileAnimationText = PhloxAnimationsController();
+                    profileAnimationExpanded = PhloxAnimationsController();
+                  };
                 },
               ),
             );
