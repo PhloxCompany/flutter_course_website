@@ -1,43 +1,59 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/api_service.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/model_configs.dart';
 
 class HomeProvider extends ChangeNotifier{
 
+  HomeProvider(BuildContext _context){
+    apiService = ApiService(_context);
+  }
+
   bool loading = true;
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: "https://api.phloxcompany.com/flutter_course/"
-  ));
+
+  ApiService? apiService;
   List<ModelHeadline> _listHeadline = [];
 
   List<ModelHeadline> get listHeadlines => _listHeadline;
 
   ModelConfigs? modelConfigs;
-  
+
   Future<void> requestHeadline() async {
     _listHeadline = [];
-    Response response =
-    await _dio.get("?api=headline");
-    debugPrint(response.data.toString());
-    if (response.statusCode == 200) {
-      var _data = json.decode(response.data);
-      var _responseListHeadline = _data['list'];
+
+    apiService!.get(url: "?api=headline",
+        res: (data){
+      var _responseListHeadline = data['list'];
 
       for (var item in _responseListHeadline) {
         _listHeadline.add(ModelHeadline.fromItem(item));
       }
-      modelConfigs = ModelConfigs.fromJson(_data['configData']);
+      modelConfigs = ModelConfigs.fromJson(data['configData']);
       loading = false;
       notifyListeners();
-    }
+    });
   }
 
   void toggleListTile(ModelHeadline model) {
     model.isExpanded = !model.isExpanded;
     notifyListeners();
+  }
+
+  void startPay() {
+
+    apiService!.get(url: "payment.php", res: (data) async{
+      if(data["result"]){
+        if(await canLaunch(data['url'])){
+          await launch(data['url']);
+        }else {
+          throw 'Could not launch ${data['url']}';
+        }
+      }
+    });
+
   }
 
 }
