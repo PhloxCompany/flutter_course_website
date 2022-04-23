@@ -14,6 +14,15 @@ class ExitAccount extends StatefulWidget {
 }
 
 class _ExitAccountState extends State<ExitAccount> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
+    context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

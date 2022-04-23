@@ -16,6 +16,13 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
+    context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
+  }
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
@@ -35,6 +42,7 @@ class _EditProfileState extends State<EditProfile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: !_isWeb ? 4 : 1,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: PhloxAnime(
@@ -70,6 +78,7 @@ class _EditProfileState extends State<EditProfile> {
                           )
                         ),
                       ),
+                      const SizedBox(height: 10,),
                       if(!_isWeb) Column(
                         children: [
                           Column(
@@ -114,13 +123,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             ),
-            if(_isWeb) Expanded(
+             Expanded(
+               flex: !_isWeb ? 0 : 1,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: EdgeInsets.symmetric(horizontal: _isWeb ? 20 : 0),
                 child: PhloxAnime(
                   phloxAnimationsController: profileMobileModeProvider.profileAnimationExpanded,
                   millisecondsDelay: 900,
-                  child: Column(
+                  child: _isWeb ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextField(
@@ -141,10 +151,10 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                     ],
-                  ),
+                  ) : const SizedBox()
                 ),
               ),
-            ),
+            )
           ],
         ),
       ],

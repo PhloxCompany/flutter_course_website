@@ -433,7 +433,7 @@ packages:
       name: phlox_animations
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   phlox_drawer:
     dependency: "direct dev"
     description:
@@ -683,7 +683,7 @@ packages:
       name: video_player_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.1"
+    version: "5.1.2"
   video_player_web:
     dependency: transitive
     description:

@@ -14,6 +14,13 @@ class ContactUs extends StatefulWidget {
 
 class _ContactUsState extends State<ContactUs> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
+    context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
+  }
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;

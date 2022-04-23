@@ -53,11 +53,9 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-
-    if(!_isWeb){
-      context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
-      context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
-    }
+    //
+    // if(!_isWeb){
+    // }
     GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
     ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
     return Directionality(
@@ -136,10 +134,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                     .indexPage) {
                                               return;
                                             }
-                                            if (profileMobileModeProvider
-                                                    .profileAnimationExpanded
-                                                    .animationStatus ==
-                                                AnimationStatus.forward) {
+                                            if (profileMobileModeProvider.profileAnimationExpanded.animationStatus == AnimationStatus.forward) {
                                               return;
                                             }
                                             if (profileMobileModeProvider
@@ -230,7 +225,21 @@ class _ProfilePageState extends State<ProfilePage>
                                       borderRadius: BorderRadius.circular(10)),
                                   child: InkWell(
                                     onTap: () {
-                                      profileMobileModeProvider.checkClickMode(context);
+                                      //profileMobileModeProvider.checkClickMode(context);
+                                      profileMobileModeProvider.animationController?.forward();
+                                      showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) {
+                                            return itemBottomSheet(context);
+                                          }).whenComplete(() {
+                                        debugPrint('trd');
+                                        //turns -= 1 / 4;
+                                        profileMobileModeProvider.animationController?.reverse();
+                                      });
+                                      // }
+                                      debugPrint('trd');
+                                      profileMobileModeProvider.isClicked = !profileMobileModeProvider.isClicked;
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
@@ -291,4 +300,72 @@ class _ProfilePageState extends State<ProfilePage>
       ),
     );
   }
+  Widget itemBottomSheet(BuildContext context) {
+    GlobalSettingProvider globalSettingProvider =
+    Provider.of(context, listen: false);
+    ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
+    return Card(
+
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      color: globalSettingProvider.darkMode
+          ? AppColors.blueBgDark
+          : Colors.amber.shade50,
+      margin: const EdgeInsets.all(14.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(12),
+          itemCount: profileMobileModeProvider.listBottomSheet.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1.0),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                leading: Icon(
+                  profileMobileModeProvider.listBottomSheet[index]['icon'],
+                  color: profileMobileModeProvider.listBottomSheet[index]['color'],
+                ),
+                title: Text(profileMobileModeProvider.listBottomSheet[index]['title'] , style: TextStyle(color: profileMobileModeProvider.listBottomSheet[index]['color']),),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  if(index == profileMobileModeProvider.indexPage){
+                    return;
+                  }
+                  if(profileMobileModeProvider.profileAnimationExpanded.animationStatus == AnimationStatus.forward){
+                    return;
+                  }
+                  if(profileMobileModeProvider.profileAnimationExpanded.animationStatus == AnimationStatus.reverse){
+                    return;
+                  }
+                  profileMobileModeProvider.animationBackground.reverse();
+                  debugPrint('ok');
+                  profileMobileModeProvider.profileAnimationText.reverse();
+                  profileMobileModeProvider.profileAnimationExpanded.reverse();
+                  profileMobileModeProvider.profileAnimationExpanded.statusListener =  (status) {
+                    if(status == AnimationStatus.dismissed){
+                      profileMobileModeProvider.changeIndex(index);
+                      profileMobileModeProvider.animationBackground.forward();
+                      profileMobileModeProvider.profileAnimationText.forward();
+                      profileMobileModeProvider.profileAnimationExpanded.forward();
+                    }
+                    profileMobileModeProvider.profileAnimationText = PhloxAnimationsController();
+                    profileMobileModeProvider.profileAnimationExpanded = PhloxAnimationsController();
+                  };
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
 }

@@ -32,93 +32,27 @@ class ProfileMobileModeProvider extends ChangeNotifier {
   bool isClicked = false;
   AnimationController? animationController;
 
-  void checkClickMode(BuildContext context) {
-    // if(isClicked){
-    //   turns -= 1 / 4;
-    //   animationController?.reverse();
-    // } else{
-    //turns += 1 / 4;
-    animationController?.forward();
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return itemBottomSheet(context);
-        }).whenComplete(() {
-      debugPrint('trd');
-      //turns -= 1 / 4;
-      animationController?.reverse();
-    });
-    // }
-    debugPrint('trd');
-    isClicked = !isClicked;
-    notifyListeners();
-  }
+  // void checkClickMode(BuildContext context) {
+  //   // if(isClicked){
+  //   //   turns -= 1 / 4;
+  //   //   animationController?.reverse();
+  //   // } else{
+  //   //turns += 1 / 4;
+  //   animationController?.forward();
+  //   showModalBottomSheet(
+  //       context: context,
+  //       backgroundColor: Colors.transparent,
+  //       builder: (context) {
+  //         return itemBottomSheet(context);
+  //       }).whenComplete(() {
+  //     debugPrint('trd');
+  //     //turns -= 1 / 4;
+  //     animationController?.reverse();
+  //   });
+  //   // }
+  //   debugPrint('trd');
+  //   isClicked = !isClicked;
+  //   notifyListeners();
+  // }
 
-  Widget itemBottomSheet(BuildContext context) {
-    GlobalSettingProvider globalSettingProvider =
-        Provider.of(context, listen: false);
-    return Card(
-
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      color: globalSettingProvider.darkMode
-          ? AppColors.blueBgDark
-          : Colors.amber.shade50,
-      margin: const EdgeInsets.all(14.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: ListView.builder(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(12),
-          itemCount: listBottomSheet.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1.0),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 24),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                leading: Icon(
-                  listBottomSheet[index]['icon'],
-                  color: listBottomSheet[index]['color'],
-                ),
-                title: Text(listBottomSheet[index]['title'] , style: TextStyle(color: listBottomSheet[index]['color']),),
-                onTap: () {
-                  Navigator.pop(context);
-
-                  if(index == indexPage){
-                    return;
-                  }
-                  if(profileAnimationExpanded.animationStatus == AnimationStatus.forward){
-                    return;
-                  }
-                  if(profileAnimationExpanded.animationStatus == AnimationStatus.reverse){
-                    return;
-                  }
-                  animationBackground.reverse();
-                  debugPrint('ok');
-                  profileAnimationText.reverse();
-                  profileAnimationExpanded.reverse();
-                  profileAnimationExpanded.statusListener =  (status) {
-                    if(status == AnimationStatus.dismissed){
-                      changeIndex(index);
-                      animationBackground.forward();
-                      profileAnimationText.forward();
-                      profileAnimationExpanded.forward();
-                    }
-                    profileAnimationText = PhloxAnimationsController();
-                    profileAnimationExpanded = PhloxAnimationsController();
-                  };
-                },
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
 }

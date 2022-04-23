@@ -7,8 +7,15 @@ class _MobileMode extends StatefulWidget {
   State<_MobileMode> createState() => _MobileModeState();
 }
 
-class _MobileModeState extends State<_MobileMode> with TickerProviderStateMixin{
+class _MobileModeState extends State<_MobileMode>{
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
+    context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
