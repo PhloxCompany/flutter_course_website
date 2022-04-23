@@ -9,7 +9,7 @@ class Utils {
         msg: value,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
+        timeInSecForIosWeb: 5,
         backgroundColor: backgroundColor,
         textColor: textColor,
         webBgColor: "linear-gradient(to right, #000000, #000000)",

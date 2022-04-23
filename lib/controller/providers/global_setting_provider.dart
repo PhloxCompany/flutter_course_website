@@ -9,6 +9,8 @@ class GlobalSettingProvider extends ChangeNotifier {
   bool get darkMode =>
       preference.getBool("dark") ?? (themeMode == ThemeMode.dark);
 
+  String? get token => preference.getString("token");
+
   ThemeMode themeMode = ThemeMode.system;
 
   void changeThemeMode() =>
@@ -19,4 +21,15 @@ class GlobalSettingProvider extends ChangeNotifier {
   void scrollToHeadline(bool web) =>
       scrollController.animateTo(web ? 700 : 1200,
           duration: const Duration(seconds: 2), curve: Curves.ease);
+
+  void scrollToPrice(BuildContext context)  =>
+      scrollController.animateTo(context.size?.height ?? 10000 - 100,
+          duration: const Duration(seconds: 2), curve: Curves.ease);
+
+  set setToken(String token) =>
+      {preference.setString("token", token), notifyListeners()};
+
+
+
+
 }

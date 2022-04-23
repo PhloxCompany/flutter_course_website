@@ -59,7 +59,9 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
 
   @override
   Widget build(BuildContext context) {
+
     double width = MediaQuery.of(context).size.width;
+
     LoginAndEnterCodeProvider loginAndEnterCodeProvider = Provider.of(context);
     bool _isWeb = width >= 1024;
 
@@ -202,9 +204,7 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                               _controller!.stop();
 
                                               await loginAndEnterCodeProvider
-                                                  .enterCodeRequest(context, v)
-                                                  .then((value) =>
-                                                      debugPrint('value'));
+                                                  .enterCodeRequest(context, v);
                                               // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('برای دریافت دوباره کد باید ${loginAndEnterCodeProvider.start %
                                               //     60} : ${loginAndEnterCodeProvider.start ~/ 60} صبر کنید')));
                                             }
