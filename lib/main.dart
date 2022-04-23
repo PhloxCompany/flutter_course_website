@@ -4,6 +4,7 @@ import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/errors/page404.dart';
 import 'package:flutter_course_phlox/ui/pages/pin_code/pin_code_page.dart';
+import 'package:flutter_course_phlox/ui/pages/profile/profile_page.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_in/sign_in.dart';
 import 'package:flutter_course_phlox/ui/pages/sign_up/sign_up.dart';
 import 'package:flutter_course_phlox/ui/pages/login/login_with_phone.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
 
+import 'controller/providers/profile_mobile_mode_provider.dart';
 import 'ui/pages/home_page/home_page.dart';
 import 'ui/pages/sign_up/sign_up.dart';
 
@@ -38,6 +40,9 @@ class _Providers extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LoginAndEnterCodeProvider(context),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileMobileModeProvider(),
+        ),
       ],
       child: const _MyApp(),
     );
@@ -56,6 +61,7 @@ class _MyApp extends StatelessWidget {
       SignIn.routeName: (context) => const SignIn(),
       Page404.routeName: (context) => const Page404(),
       LoginWithPhoneUi.routeName: (context) => const LoginWithPhoneUi(),
+      ProfilePage.routeName: (context) => const ProfilePage(),
     };
     return Consumer<GlobalSettingProvider>(builder: (_, settingProvider, __) {
 
