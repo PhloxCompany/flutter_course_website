@@ -11,8 +11,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<HomeProvider>().requestHeadline());
+    Future.microtask(() => context.read<HomeProvider>().requestHeadline());
   }
 
   @override
@@ -63,15 +62,39 @@ class _HomePageBodyState extends State<HomePageBody> {
                         : Icons.dark_mode)),
                 PhloxAnime(
                   millisecondsDelay: 300,
-                  child: BorderButtonWidget(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, LoginWithPhoneUi.routeName);
-                      },
-                      text: "ورود",
-                      padding: EdgeInsets.symmetric(
-                          horizontal: _isWeb ? 42 : 24, vertical: 20)),
-                ),
+                  child: homeProvider.modelPersonalData == null
+                      ? BorderButtonWidget(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, LoginWithPhoneUi.routeName);
+                          },
+                          text: "ورود",
+                          padding: EdgeInsets.symmetric(
+                              horizontal: _isWeb ? 42 : 24, vertical: 20))
+                      : MaterialButton(
+                    onPressed: () => Navigator.pushNamed(context, ProfilePage.routeName),
+                    minWidth: 0,
+                    padding: EdgeInsets.zero,
+
+                          elevation: 32,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(color: Colors.white, width: 1)),
+                          color: settingProvider.darkMode
+                              ? Colors.grey[900]
+                              : Colors.grey[100],
+                          child: SizedBox(
+                            width: 46,
+                            height: 46,
+                            child:
+                                homeProvider.modelPersonalData!.profile_url ==
+                                        null
+                                    ? const Icon(Icons.person)
+                                    : Image.network(homeProvider
+                                        .modelPersonalData!.profile_url!),
+                          ),
+                        ),
+                )
               ],
             ),
 

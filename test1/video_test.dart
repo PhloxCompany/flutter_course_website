@@ -16,10 +16,6 @@ class _VideoAppState extends State<VideoApp> {
     super.initState();
     _controller = VideoPlayerController.network(
         'https://api.phloxcompany.com/flutter_course/f/a.php?file=v_test.mp4&token=123',
-
-      httpHeaders: {
-          "token": 'hi'
-      }
     )..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});

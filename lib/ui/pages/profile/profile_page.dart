@@ -53,9 +53,7 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-    //
-    // if(!_isWeb){
-    // }
+
     GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
     ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
     return Directionality(
@@ -264,8 +262,7 @@ class _ProfilePageState extends State<ProfilePage>
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12)),
                                   child: InkWell(
-                                    onTap: () {
-                                    },
+                                    onTap: () => Navigator.pop(context),
                                     child: const Padding(
                                       padding: EdgeInsets.all(12.0),
                                       child: Icon(

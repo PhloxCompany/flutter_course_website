@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/utils/colors.dart';
-import 'package:flutter_course_phlox/utils/show_toast.dart';
+import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import '../../../controller/providers/login_and_enter_code_provider.dart';
@@ -43,6 +43,12 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
   @override
   void initState() {
     super.initState();
+    context.read<LoginAndEnterCodeProvider>().sendCode = false;
+    context.read<LoginAndEnterCodeProvider>().sendAgainCode = false;
+    context.read<LoginAndEnterCodeProvider>().loginAndEnterCodeRequest = false;
+    context.read<LoginAndEnterCodeProvider>().enterCodeController.clear();
+    context.read<LoginAndEnterCodeProvider>().loginController.clear();
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       reverseDuration: const Duration(seconds: 3),
@@ -59,7 +65,6 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
 
     LoginAndEnterCodeProvider loginAndEnterCodeProvider = Provider.of(context);
@@ -195,7 +200,12 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                           animationDuration:
                                               const Duration(milliseconds: 300),
                                           enableActiveFill: true,
-                                          onCompleted: (v) async {
+                                          onChanged: (value) {
+                                            loginAndEnterCodeProvider
+                                                .enterCodeController
+                                                .text = value;
+                                          },
+                                          onCompleted: (v) {
                                             if (loginAndEnterCodeProvider
                                                     .sendCode ==
                                                 true) {
@@ -203,16 +213,11 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                                   .enterCodeController.text = v;
                                               _controller!.stop();
 
-                                              await loginAndEnterCodeProvider
+                                              loginAndEnterCodeProvider
                                                   .enterCodeRequest(context, v);
                                               // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('برای دریافت دوباره کد باید ${loginAndEnterCodeProvider.start %
                                               //     60} : ${loginAndEnterCodeProvider.start ~/ 60} صبر کنید')));
                                             }
-                                          },
-                                          onChanged: (value) {
-                                            loginAndEnterCodeProvider
-                                                .enterCodeController
-                                                .text = value;
                                           },
                                           beforeTextPaste: (text) {
                                             debugPrint(

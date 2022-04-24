@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/home_page.dart';
-import 'package:flutter_course_phlox/utils/show_toast.dart';
+import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class ApiService {
@@ -17,13 +17,13 @@ class ApiService {
 
   ApiService(this.context);
 
-  bool validateResponse(Response response, String tag) {
+  void validateResponse(Response response, String tag) {
 
     var _data = json.decode(response.data);
     debugPrint(_data.toString());
     if (_data['result'] == true||_data['status'] == 200) {
       // request OK
-      return true;
+      return;
     } else {
       Utils.showToast(_data['msg']);
 
@@ -39,7 +39,6 @@ class ApiService {
             context, HomePage.routeName, (route) => false);
       }
     }
-    return false;
   }
 
   Future get(
@@ -48,10 +47,9 @@ class ApiService {
     Response response = await dio.get(url, queryParameters: {
       "token": context.read<GlobalSettingProvider>().token ?? ""
     });
-    if (validateResponse(response, url)) {
-      var _data = json.decode(response.data);
-      res(_data);
-    }
+    validateResponse(response, url);
+    var _data = json.decode(response.data);
+    res(_data);
   }
 
   Future post(
@@ -63,9 +61,8 @@ class ApiService {
         queryParameters: {
           "token": context.read<GlobalSettingProvider>().token ?? ""
         });
-    if (validateResponse(response, url)) {
-      var _data = json.decode(response.data);
-      res(_data);
-    }
+    validateResponse(response, url);
+    var _data = json.decode(response.data);
+    res(_data);
   }
 }

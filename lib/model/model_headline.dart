@@ -1,4 +1,7 @@
+import 'package:video_player/video_player.dart';
+
 class ModelHeadline {
+
   int id;
   String title;
   bool complete;
@@ -7,6 +10,7 @@ class ModelHeadline {
   VideoVisibility videoVisibility;
   bool isPlay = false;
   bool isExpanded = false;
+  late VideoPlayerController videoController;
 
   ModelHeadline(
       {required this.id,
@@ -14,7 +18,8 @@ class ModelHeadline {
       required this.complete,
       required this.videoVisibility,
       required this.time,
-      required this.sortId});
+      required this.sortId,
+      });
 
   factory ModelHeadline.fromItem(var item) => ModelHeadline(
       id: item['id'],
@@ -22,7 +27,8 @@ class ModelHeadline {
       complete: item['is_completed'] == 1,
       videoVisibility: VideoVisibility.values[item['video_visibility']],
       time: item['time'],
-      sortId: item['sortId']);
+      sortId: item['sortId'],
+  );
 }
 
 enum VideoVisibility{

@@ -24,7 +24,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
   @override
   void initState() {
     super.initState();
-    initializePlayer();
+    initVideos();
   }
 
   @override
@@ -40,22 +40,28 @@ class _ChewieDemoState extends State<ChewieDemo> {
     "https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4"
   ];
 
-  Future<void> initializePlayer() async {
+  Future initVideos()async{
+
     _videoPlayerController1 =
-        VideoPlayerController.network(srcs[currPlayIndex]);
+        VideoPlayerController.network(srcs[0]);
     _videoPlayerController2 =
-        VideoPlayerController.network(srcs[currPlayIndex]);
+        VideoPlayerController.network(srcs[1]);
     await Future.wait([
       _videoPlayerController1.initialize(),
       _videoPlayerController2.initialize()
     ]);
+
+    initializePlayer();
+  }
+
+  Future<void> initializePlayer() async {
     _createChewieController();
     setState(() {});
   }
 
   void _createChewieController() {
     _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController1,
+      videoPlayerController: currPlayIndex == 0 ? _videoPlayerController1: _videoPlayerController2,
       autoPlay: false,
       looping: false,
       additionalOptions: (context) {
@@ -74,6 +80,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
 
   Future<void> toggleVideo() async {
     await _videoPlayerController1.pause();
+    await _videoPlayerController2.pause();
     currPlayIndex = currPlayIndex == 0 ? 1 : 0;
     await initializePlayer();
   }

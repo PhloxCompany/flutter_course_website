@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/home_page/home_page.dart';
-import 'package:flutter_course_phlox/utils/show_toast.dart';
+import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../api_service.dart';
@@ -89,17 +89,16 @@ class LoginAndEnterCodeProvider extends ChangeNotifier {
         body: {'code': code, 'phone': loginController.text},
         res: (data) {
           if (data['result']) {
-            isSentCode(!sendCode);
             start = 60;
             timer!.cancel();
             context.read<GlobalSettingProvider>().setToken =
                 data['token'].toString();
             Navigator.pushNamedAndRemoveUntil(
                 context, HomePage.routeName, (route) => false);
+          }else{
+            loginAndEnterCodeRequest = false;
+            notifyListeners();
           }
-          Utils.showToast(data['msg']);
-          loginAndEnterCodeRequest = false;
-          notifyListeners();
         });
   }
 

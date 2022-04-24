@@ -1,7 +1,11 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
+import 'package:flutter_course_phlox/ui/pages/login/login_with_phone.dart';
+import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
+import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:flutter_course_phlox/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -12,11 +16,25 @@ class ItemHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeProvider homeProvider = Provider.of(context, listen: true);
+    return _itemHeadLine(context,
+        body: Column(
+          children: [
+            Card(
+              elevation: 32,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: _video(modelHeadline, context),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Widget _itemHeadLine(context, {required Widget body}) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-
-    var settingProvider = context.read<GlobalSettingProvider>();
+    HomeProvider homeProvider = Provider.of(context, listen: true);
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
     return Container(
       width: _isWeb ? 1060 : double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -57,9 +75,7 @@ class ItemHeadline extends StatelessWidget {
                     ],
                   ));
             },
-            body: const ListTile(
-              title: Text('Description text'),
-            ),
+            body: body,
             isExpanded: modelHeadline.isExpanded,
             canTapOnHeader: true,
           ),
@@ -102,4 +118,84 @@ class ItemHeadline extends StatelessWidget {
           ),
         ],
       );
+
+  _video(ModelHeadline modelHeadline, BuildContext context) {
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
+    HomeProvider homeProvider = Provider.of(context, listen: true);
+
+    switch (modelHeadline.videoVisibility) {
+      case VideoVisibility.private:
+        return (settingProvider.token != null)
+            ? (settingProvider.purchased == false)
+                ? showGoToPurchase(context)
+                : (homeProvider.chewieController != null &&
+                        modelHeadline.videoController.value.isInitialized)
+                    ? Chewie(
+                        controller: homeProvider.chewieController!,
+                      )
+                    : _loading()
+            : showGoToSignIn(context);
+      case VideoVisibility.public:
+        return (settingProvider.token != null)
+            ? (homeProvider.chewieController != null &&
+                    modelHeadline.videoController.value.isInitialized)
+                ? Chewie(
+                    controller: homeProvider.chewieController!,
+                  )
+                : _loading()
+            : showGoToSignIn(context);
+      case VideoVisibility.global:
+        return homeProvider.chewieController != null &&
+                modelHeadline.videoController.value.isInitialized
+            ? Chewie(
+                controller: homeProvider.chewieController!,
+              )
+            : _loading();
+    }
+  }
+
+  Widget _loading() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          CircularProgressIndicator(),
+          SizedBox(height: 20),
+          Text('Loading'),
+        ],
+      );
+
+  Widget showGoToSignIn(BuildContext context) => Column(
+        children: [
+          const ExtraBoldText(
+            text: "برای مشاهده، وارد شوید",
+            textSize: 54,
+          ),
+          const Text("برای دیدن این ویدیو باید وارد اکانت خود شوید"),
+          BorderButtonWidget(
+              onPressed: () {
+                Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
+              },
+              text: "ورود",
+              padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20))
+        ],
+      );
+
+  Widget showGoToPurchase(BuildContext context) {
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
+
+    return Column(
+      children: [
+        const ExtraBoldText(
+          text: "جدید ترین دوره فلاتر",
+          textSize: 54,
+        ),
+        const Text("برای دیدن این ویدیو باید دوره را خریداری کنید"),
+        BorderButtonWidget(
+            onPressed: () {
+              settingProvider.scrollToPrice(context);
+            },
+            text: "پرداخت",
+            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20))
+      ],
+    );
+  }
 }

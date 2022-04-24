@@ -11,6 +11,8 @@ class GlobalSettingProvider extends ChangeNotifier {
 
   String? get token => preference.getString("token");
 
+  bool get purchased => preference.getBool("purchased") ?? false;
+
   ThemeMode themeMode = ThemeMode.system;
 
   void changeThemeMode() =>
@@ -23,12 +25,11 @@ class GlobalSettingProvider extends ChangeNotifier {
           duration: const Duration(seconds: 2), curve: Curves.ease);
 
   void scrollToPrice(BuildContext context)  =>
-      scrollController.animateTo(context.size?.height ?? 10000 - 100,
+      scrollController.animateTo(scrollController.position.maxScrollExtent,
           duration: const Duration(seconds: 2), curve: Curves.ease);
 
   set setToken(String token) =>
       {preference.setString("token", token), notifyListeners()};
-
 
 
 
