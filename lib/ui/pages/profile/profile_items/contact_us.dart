@@ -4,6 +4,7 @@ import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -102,7 +103,14 @@ class _ContactUsState extends State<ContactUs> {
                     height: 54,
                     color: const Color(0xff2d3653),
                     child: const Text('ثبت' , style: TextStyle(color: Colors.white),),
-                    onPressed: () {
+                    onPressed: () async{
+                        const uri =
+                            "mailto:codingwithdhrumil@gmail.com?subject=Test Email&body=Test Description";
+                        if (await canLaunch(uri)) {
+                          await launch(uri);
+                        } else {
+                          throw 'Could not launch $uri';
+                        }
 
                   },),
                   const SizedBox(height: 40,),

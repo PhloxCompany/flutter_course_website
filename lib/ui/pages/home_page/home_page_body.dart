@@ -90,7 +90,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                                 homeProvider.modelPersonalData!.profile_url ==
                                         null
                                     ? const Icon(Icons.person)
-                                    : Image.network(homeProvider
+                                    : Image.network(Links.profileUrl + homeProvider
                                         .modelPersonalData!.profile_url!),
                           ),
                         ),

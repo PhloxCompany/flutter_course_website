@@ -31,6 +31,8 @@ class GlobalSettingProvider extends ChangeNotifier {
   set setToken(String token) =>
       {preference.setString("token", token), notifyListeners()};
 
-
+  Future<void> removeToken() async{
+    await preference.remove('token');
+  }
 
 }

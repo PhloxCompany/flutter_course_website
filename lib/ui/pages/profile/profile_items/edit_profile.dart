@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
@@ -14,15 +15,29 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     context.read<ProfileMobileModeProvider>().profileAnimationText =
         PhloxAnimationsController();
     context.read<ProfileMobileModeProvider>().profileAnimationExpanded =
         PhloxAnimationsController();
+    Future.microtask(() {
+
+      ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context , listen: false);
+      HomeProvider homeProvider = Provider.of(context , listen: false);
+
+      profileMobileModeProvider.displayNameController.text = homeProvider.modelPersonalData?.display_name?? '';
+      profileMobileModeProvider.ageController.text = homeProvider.modelPersonalData?.age.toString() ??'';
+      profileMobileModeProvider.howFindUs.text = homeProvider.modelPersonalData?.how_find_us?? '';
+      profileMobileModeProvider.workController.text = homeProvider.modelPersonalData?.work??'';
+      profileMobileModeProvider.bioController.text = homeProvider.modelPersonalData?.bio?? '';
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +73,7 @@ class _EditProfileState extends State<EditProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextField(
+                        controller: profileMobileModeProvider.displayNameController,
                         decoration: InputDecoration(
                             hintText: 'نام',
                             border: OutlineInputBorder(
@@ -67,8 +83,9 @@ class _EditProfileState extends State<EditProfile> {
                         height: 10,
                       ),
                       TextField(
+                        controller: profileMobileModeProvider.bioController,
                         decoration: InputDecoration(
-                            hintText: 'جنسیت',
+                            hintText: 'توضیحات درباره خود',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(32))),
                       ),
@@ -76,6 +93,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 10,
                       ),
                       TextField(
+                        controller: profileMobileModeProvider.howFindUs,
                         decoration: InputDecoration(
                             hintText: 'نحوه آشنایی با ما',
                             border: OutlineInputBorder(
@@ -91,6 +109,7 @@ class _EditProfileState extends State<EditProfile> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TextField(
+                                  controller: profileMobileModeProvider.ageController,
                                   decoration: InputDecoration(
                                       hintText: 'سن',
                                       border: OutlineInputBorder(
@@ -101,6 +120,7 @@ class _EditProfileState extends State<EditProfile> {
                                   height: 10,
                                 ),
                                 TextField(
+                                  controller: profileMobileModeProvider.workController,
                                   decoration: InputDecoration(
                                       hintText: 'حوزه کار',
                                       border: OutlineInputBorder(
@@ -119,7 +139,9 @@ class _EditProfileState extends State<EditProfile> {
                         minWidth: 200,
                         height: 60,
                         color: const Color(0xff2d3653),
-                        onPressed: () {},
+                        onPressed: () {
+                          profileMobileModeProvider.requestEditProfile(context);
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32)),
                         child: const Text(
@@ -148,6 +170,8 @@ class _EditProfileState extends State<EditProfile> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TextField(
+                                controller: profileMobileModeProvider.ageController,
+
                                 decoration: InputDecoration(
                                     hintText: 'سن',
                                     border: OutlineInputBorder(
@@ -158,6 +182,7 @@ class _EditProfileState extends State<EditProfile> {
                                 height: 10,
                               ),
                               TextField(
+                                controller: profileMobileModeProvider.workController,
                                 decoration: InputDecoration(
                                     hintText: 'حوزه کار',
                                     border: OutlineInputBorder(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
+import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
+import 'package:flutter_course_phlox/ui/pages/home_page/home_page.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:phlox_animations/phlox_animations.dart';
@@ -32,6 +35,8 @@ class _ExitAccountState extends State<ExitAccount> {
       context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
     }
     ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
+    GlobalSettingProvider globalSettingProvider = Provider.of(context);
+    HomeProvider homeProvider = Provider.of(context , listen: false);
     return Center(
       child: PhloxAnime(
         phloxAnimationsController:
@@ -117,7 +122,12 @@ class _ExitAccountState extends State<ExitAccount> {
                     ),
                     height: 54,
                     color: Colors.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      homeProvider.modelPersonalData = null;
+                      globalSettingProvider.removeToken().then((value) => Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (route) => false)
+
+                      );
+                    },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [

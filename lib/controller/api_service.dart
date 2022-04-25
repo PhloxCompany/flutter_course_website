@@ -52,9 +52,9 @@ class ApiService {
     res(_data);
   }
 
-  Future post(
+  Future<void> post(
       {required String url,
-      var body,
+      required var body,
       required Function(dynamic response) res}) async {
     Response response = await dio.post(url,
         data: FormData.fromMap(body),
