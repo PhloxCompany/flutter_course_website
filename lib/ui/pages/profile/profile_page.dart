@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/profile_mobile_mode_provider.dart';
 import 'package:flutter_course_phlox/ui/pages/profile/profile_items/contact_us.dart';
 import 'package:flutter_course_phlox/ui/pages/profile/profile_items/edit_profile.dart';
@@ -43,16 +44,39 @@ class _ProfilePageState extends State<ProfilePage>
   void dispose() {
     // TODO: implement dispose
     context.read<ProfileMobileModeProvider>().animationController?.dispose();
+    context.read<ProfileMobileModeProvider>().animationBackground.dispose();
+    context.read<ProfileMobileModeProvider>().profileAnimationItemMenu.dispose();
+    context.read<ProfileMobileModeProvider>().profileAnimationText.dispose();
+    context.read<ProfileMobileModeProvider>().profileAnimationExpanded.dispose();
     super.dispose();
   }
+  //
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  //   debugPrint('---------- true ----------');
+  // }
+  //
+  // @override
+  // void didUpdateWidget(covariant ProfilePage oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   double width = MediaQuery.of(context).size.width;
+  //   if(width <= 1024 && context.read<ProfileMobileModeProvider>().profileAnimationExpanded.animationStatus == AnimationStatus.reverse){
+  //     debugPrint('error -----------------');
+  //   }
+  //   if(width <= 1024 && context.read<ProfileMobileModeProvider>().profileAnimationExpanded.animationStatus == AnimationStatus.forward){
+  //     debugPrint('error -----------------');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-
     GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
-    ProfileMobileModeProvider profileMobileModeProvider = Provider.of(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -202,12 +226,42 @@ class _ProfilePageState extends State<ProfilePage>
                                 ),
                               ),
                             Expanded(
-                                child: [
-                              const _WebMode(),
-                              const ContactUs(),
-                              const EditProfile(),
-                              const ExitAccount(),
-                            ].elementAt(profileMobileModeProvider.indexPage))
+                                child: Stack(
+                                  children: [
+                                    [
+                                      const _WebMode(),
+                                      const ContactUs(),
+                                      const EditProfile(),
+                                      const ExitAccount(),
+                                    ].elementAt(profileMobileModeProvider.indexPage),
+                                    if(_isWeb) Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Card(
+                                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12)),
+                                        child: InkWell(
+                                          onTap: () {
+                                            context.read<ProfileMobileModeProvider>().animationController?.dispose();
+                                            context.read<ProfileMobileModeProvider>().animationBackground.dispose();
+                                            context.read<ProfileMobileModeProvider>().profileAnimationItemMenu.dispose();
+                                            context.read<ProfileMobileModeProvider>().profileAnimationText.dispose();
+                                            context.read<ProfileMobileModeProvider>().profileAnimationExpanded.dispose();
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                )),
                           ],
                         ): Column(
                           children: [
@@ -259,7 +313,14 @@ class _ProfilePageState extends State<ProfilePage>
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12)),
                                   child: InkWell(
-                                    onTap: () => Navigator.pop(context),
+                                    onTap: () {
+                                      context.read<ProfileMobileModeProvider>().animationController?.dispose();
+                                    context.read<ProfileMobileModeProvider>().animationBackground.dispose();
+                                    context.read<ProfileMobileModeProvider>().profileAnimationItemMenu.dispose();
+                                    context.read<ProfileMobileModeProvider>().profileAnimationText.dispose();
+                                    context.read<ProfileMobileModeProvider>().profileAnimationExpanded.dispose();
+                                    Navigator.pop(context);
+                                    },
                                     child: const Padding(
                                       padding: EdgeInsets.all(12.0),
                                       child: Icon(

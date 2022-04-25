@@ -38,7 +38,7 @@ class _ExitAccountState extends State<ExitAccount> {
             profileMobileModeProvider.profileAnimationText,
         millisecondsDelay: 700,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ExtraBoldText(
               text: 'خروج از حساب',
