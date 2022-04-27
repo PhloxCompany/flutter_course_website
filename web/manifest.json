@@ -1,11 +1,11 @@
 {
-    "name": "flutter_course_phlox",
-    "short_name": "flutter_course_phlox",
-    "start_url": ".",
+    "name": "flutter course phlox",
+    "short_name": "flutter course",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "آموزش برنامه نویسی فلاتر",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

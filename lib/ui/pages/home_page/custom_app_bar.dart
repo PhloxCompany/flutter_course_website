@@ -75,7 +75,7 @@ class CustomAppBar extends StatelessWidget {
                           .modelPersonalData!.profile_url!),
                 ),
               ),
-            ) : Container(
+            ) : const SizedBox(
               width: 46,
               height: 46,)
           ],

@@ -309,7 +309,7 @@ class _LoginWithPhoneUiState extends State<LoginWithPhoneUi>
                                     style: TextStyle(
                                         color: settingProvider.darkMode
                                             ? Colors.blueGrey.shade50
-                                            : Color(0xff2d3653)),
+                                            : const Color(0xff2d3653)),
                                   ),
                                 ),
                               ),

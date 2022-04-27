@@ -33,8 +33,9 @@ class ApiService {
       debugPrint("response data : ${response.data}");
       debugPrint("#######################");
 
-      if (response.statusCode == 403) {
+      if (response.statusCode == 401) {
         // TOKEN EXPIRED
+        context.read<GlobalSettingProvider>().removeToken();
         Navigator.pushNamedAndRemoveUntil(
             context, HomePage.routeName, (route) => false);
       }

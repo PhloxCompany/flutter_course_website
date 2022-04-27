@@ -111,7 +111,7 @@ class HomeProvider extends ChangeNotifier{
             break;
           case VideoVisibility.global:
             element.videoController = VideoPlayerController.network(
-                Links.courseUrl + element.id.toString() + ".mp4"
+                Links.courseUrl + element.id.toString() + ".mp4",
             )..initialize().then((_) {
               element.chewieController = ChewieController(
                 videoPlayerController: element.videoController,

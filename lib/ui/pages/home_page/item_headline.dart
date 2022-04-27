@@ -21,7 +21,7 @@ class ItemHeadline extends StatelessWidget {
 
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-    bool _isPhone = width <= 600;
+    bool _isPhone = width <= 400;
 
 
     return _itemHeadLine(context,
@@ -32,15 +32,15 @@ class ItemHeadline extends StatelessWidget {
               elevation: 32,
               color: settingProvider.darkMode ? AppColors.blueBg : Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
                     color: settingProvider.darkMode
                         ? Colors.black
                         : Colors.white,
-                  width: 2
+                  width: 1
                 ),
               ),
-              margin: EdgeInsets.all(_isWeb ? 24 : _isPhone ? 8 : 18),
+              margin: EdgeInsets.all(_isWeb ? 24 : _isPhone ? 4 : 18),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: _video(modelHeadline, context),
@@ -103,7 +103,7 @@ class ItemHeadline extends StatelessWidget {
           ),
         ],
         elevation: 0,
-        expandedHeaderPadding: const EdgeInsets.only(right: 12),
+        expandedHeaderPadding: const EdgeInsets.only(right: 6),
         expansionCallback: (panelIndex, isExpanded) =>
             homeProvider.toggleListTile(modelHeadline),
       ),
@@ -151,35 +151,50 @@ class ItemHeadline extends StatelessWidget {
                 ? showGoToPurchase(context)
                 : (modelHeadline.chewieController != null &&
                         modelHeadline.videoController.value.isInitialized)
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Chewie(
-                          controller: modelHeadline.chewieController!,
-                        ),
-                      )
+                    ? Theme(
+          data: ThemeData.light().copyWith(
+            platform: TargetPlatform.iOS,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Chewie(
+              controller: modelHeadline.chewieController!,
+            ),
+          ),
+        )
                     : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.public:
         return (settingProvider.token != null)
             ? (modelHeadline.chewieController != null &&
                     modelHeadline.videoController.value.isInitialized)
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
+                ? Theme(
+                  data: ThemeData.light().copyWith(
+                    platform: TargetPlatform.iOS,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
                     child: Chewie(
                       controller: modelHeadline.chewieController!,
                     ),
-                  )
+                  ),
+                )
                 : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.global:
         return modelHeadline.chewieController != null &&
                 modelHeadline.videoController.value.isInitialized
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Chewie(
-                  controller: modelHeadline.chewieController!,
-                ),
-              )
+            ? Theme(
+          data: ThemeData.light().copyWith(
+            platform: TargetPlatform.iOS,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Chewie(
+              controller: modelHeadline.chewieController!,
+            ),
+          ),
+        )
             : _loading();
     }
   }

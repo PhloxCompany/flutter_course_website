@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
-import 'package:flutter_course_phlox/model/model_configs.dart';
 import 'package:flutter_course_phlox/ui/pages/profile/profile_page.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';

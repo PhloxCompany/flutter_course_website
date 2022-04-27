@@ -47,7 +47,7 @@ class _HomePageBottomNavigation extends StatelessWidget {
                 ),
                 ExtraBoldText(
                   text: "متخصص فلاتر شو",
-                  textSize: _isWeb ? 32 : 22,
+                  textSize: _isWeb ? 32 : 20,
                 ),
                 const Spacer(),
                 if(homeProvider.modelConfigs != null)

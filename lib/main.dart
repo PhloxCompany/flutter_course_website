@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
@@ -12,7 +11,6 @@ import 'package:flutter_course_phlox/ui/pages/login/login_with_phone.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
-
 import 'controller/providers/profile_mobile_mode_provider.dart';
 import 'ui/pages/home_page/home_page.dart';
 import 'ui/pages/sign_up/sign_up.dart';
