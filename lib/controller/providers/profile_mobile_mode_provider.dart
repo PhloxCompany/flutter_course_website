@@ -29,6 +29,9 @@ class ProfileMobileModeProvider extends ChangeNotifier {
     });
     await ApiService(context).post(url: 'update_profile.php?api=profile_image', res: (response){
       print(response);
+      if(response != false){
+        Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (route) => false);
+      }
     },body: {
       "profile": MultipartFile.fromBytes(file,filename: 'me.png'),
     });

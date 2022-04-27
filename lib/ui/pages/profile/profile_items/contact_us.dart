@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/profile_mobile_mode_provider.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
+import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,6 +22,8 @@ class _ContactUsState extends State<ContactUs> {
     context.read<ProfileMobileModeProvider>().profileAnimationText = PhloxAnimationsController();
     context.read<ProfileMobileModeProvider>().profileAnimationExpanded = PhloxAnimationsController();
   }
+  TextEditingController nameController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -53,25 +56,12 @@ class _ContactUsState extends State<ContactUs> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text('نام', style: TextStyle(fontSize: 14),),
+                    child: Text('نام و یا موضوع', style: TextStyle(fontSize: 14),),
                   ),
                   SizedBox(
                     width: 400,
                     child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8)
-                        )
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('ایمیل', style: TextStyle(fontSize: 14),),
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: TextField(
+                      controller: nameController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8)
@@ -86,6 +76,9 @@ class _ContactUsState extends State<ContactUs> {
                   SizedBox(
                     width: 400,
                     child: TextField(
+                      controller: messageController,
+                      maxLines: 5,
+                      minLines: 4,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8)
@@ -104,8 +97,16 @@ class _ContactUsState extends State<ContactUs> {
                     color: const Color(0xff2d3653),
                     child: const Text('ثبت' , style: TextStyle(color: Colors.white),),
                     onPressed: () async{
-                        const uri =
-                            "mailto:codingwithdhrumil@gmail.com?subject=Test Email&body=Test Description";
+                      if(nameController.text.isEmpty){
+                        Utils.showToast('لطفا موضوع و یا نام خود را بنویسید');
+                        return;
+                      }
+                      if(messageController.text.isEmpty){
+                        Utils.showToast('لطفا پیام خود را بنویسید');
+                        return;
+                      }
+                      final uri =
+                            "mailto:codingwithdhrumil@gmail.com?subject=${nameController.text} Email&body=${messageController.text}";
                         if (await canLaunch(uri)) {
                           await launch(uri);
                         } else {

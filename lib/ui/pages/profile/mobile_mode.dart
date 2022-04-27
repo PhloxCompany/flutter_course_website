@@ -40,35 +40,42 @@ class _MobileModeState extends State<_MobileMode>{
                 SizedBox(
                   height: 160,
                   width: 120,
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Card(
-                          elevation: 42,
-                          margin: EdgeInsets.zero,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Container(
-                            height: 110,
-                            width: double.infinity,
-                            color: settingProvider.darkMode
-                                ? Colors.blueGrey[100]
-                                : Colors.white,
+                  child: InkWell(
+                    onTap: () async{
+
+                      Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+                      mobileModeProvider.requestProfileImage(context,bytesFromPicker!);
+                    },
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Card(
+                            elevation: 42,
+                            margin: EdgeInsets.zero,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Container(
+                              height: 110,
+                              width: double.infinity,
+                              color: settingProvider.darkMode
+                                  ? Colors.blueGrey[100]
+                                  : Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          homeProvider.modelPersonalData?.profile_url ?? '',
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            Links.profileUrl + (homeProvider.modelPersonalData?.profile_url ?? ''),
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(

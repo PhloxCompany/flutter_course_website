@@ -239,11 +239,6 @@ class _ProfilePageState extends State<ProfilePage>
                                             borderRadius: BorderRadius.circular(12)),
                                         child: InkWell(
                                           onTap: () {
-                                            context.read<ProfileMobileModeProvider>().animationController?.dispose();
-                                            context.read<ProfileMobileModeProvider>().animationBackground.dispose();
-                                            context.read<ProfileMobileModeProvider>().profileAnimationItemMenu.dispose();
-                                            context.read<ProfileMobileModeProvider>().profileAnimationText.dispose();
-                                            context.read<ProfileMobileModeProvider>().profileAnimationExpanded.dispose();
                                             Navigator.pop(context);
                                           },
                                           child: const Padding(
@@ -311,11 +306,6 @@ class _ProfilePageState extends State<ProfilePage>
                                       borderRadius: BorderRadius.circular(12)),
                                   child: InkWell(
                                     onTap: () {
-                                      context.read<ProfileMobileModeProvider>().animationController?.dispose();
-                                    context.read<ProfileMobileModeProvider>().animationBackground.dispose();
-                                    context.read<ProfileMobileModeProvider>().profileAnimationItemMenu.dispose();
-                                    context.read<ProfileMobileModeProvider>().profileAnimationText.dispose();
-                                    context.read<ProfileMobileModeProvider>().profileAnimationExpanded.dispose();
                                     Navigator.pop(context);
                                     },
                                     child: const Padding(
