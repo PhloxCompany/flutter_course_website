@@ -20,7 +20,6 @@ class _HomePageBodyState extends State<HomePageBody> {
     GlobalSettingProvider settingProvider = Provider.of(context);
 
     var numFormat = intl.NumberFormat("0,000");
-
     String price = numFormat.format(30000000);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
