@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/login_and_enter_code_provider.dart';
@@ -20,6 +21,7 @@ void main() async {
   setPathUrlStrategy();
   SharedPreferences preferences = await SharedPreferences.getInstance();
   runApp(_Providers(preferences: preferences));
+
 }
 
 class _Providers extends StatelessWidget {

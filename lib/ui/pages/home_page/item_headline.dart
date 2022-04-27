@@ -16,16 +16,31 @@ class ItemHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
     return _itemHeadLine(context,
         body: Column(
           children: [
             Card(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
               elevation: 32,
+              color: settingProvider.darkMode ? AppColors.blueBg : Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+                side: BorderSide(
+                    color: settingProvider.darkMode
+                        ? Colors.black
+                        : Colors.white,
+                  width: 2
+                ),
+              ),
+              margin: const EdgeInsets.all(24),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: _video(modelHeadline, context),
               ),
-            )
+            ),
+            if (modelHeadline.des != null) Text('''${modelHeadline.des}'''),
+            if (modelHeadline.des != null) const SizedBox(height: 12,),
           ],
         ));
   }
@@ -121,34 +136,42 @@ class ItemHeadline extends StatelessWidget {
 
   _video(ModelHeadline modelHeadline, BuildContext context) {
     GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
-    HomeProvider homeProvider = Provider.of(context, listen: true);
 
     switch (modelHeadline.videoVisibility) {
       case VideoVisibility.private:
         return (settingProvider.token != null)
             ? (settingProvider.purchased == false)
                 ? showGoToPurchase(context)
-                : (homeProvider.chewieController != null &&
+                : (modelHeadline.chewieController != null &&
                         modelHeadline.videoController.value.isInitialized)
-                    ? Chewie(
-                        controller: homeProvider.chewieController!,
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Chewie(
+                          controller: modelHeadline.chewieController!,
+                        ),
                       )
                     : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.public:
         return (settingProvider.token != null)
-            ? (homeProvider.chewieController != null &&
+            ? (modelHeadline.chewieController != null &&
                     modelHeadline.videoController.value.isInitialized)
-                ? Chewie(
-                    controller: homeProvider.chewieController!,
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Chewie(
+                      controller: modelHeadline.chewieController!,
+                    ),
                   )
                 : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.global:
-        return homeProvider.chewieController != null &&
+        return modelHeadline.chewieController != null &&
                 modelHeadline.videoController.value.isInitialized
-            ? Chewie(
-                controller: homeProvider.chewieController!,
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Chewie(
+                  controller: modelHeadline.chewieController!,
+                ),
               )
             : _loading();
     }
@@ -164,10 +187,12 @@ class ItemHeadline extends StatelessWidget {
       );
 
   Widget showGoToSignIn(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const ExtraBoldText(
             text: "برای مشاهده، وارد شوید",
-            textSize: 54,
+            textSize: 32,
           ),
           const Text("برای دیدن این ویدیو باید وارد اکانت خود شوید"),
           BorderButtonWidget(
@@ -183,16 +208,16 @@ class ItemHeadline extends StatelessWidget {
     GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const ExtraBoldText(
           text: "جدید ترین دوره فلاتر",
-          textSize: 54,
+          textSize: 32,
         ),
         const Text("برای دیدن این ویدیو باید دوره را خریداری کنید"),
         BorderButtonWidget(
-            onPressed: () {
-              settingProvider.scrollToPrice(context);
-            },
+            onPressed: () => settingProvider.scrollToPrice(context),
             text: "پرداخت",
             padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20))
       ],

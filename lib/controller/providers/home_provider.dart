@@ -2,20 +2,22 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/api_service.dart';
+import 'package:flutter_course_phlox/controller/providers/global_setting_provider.dart';
 import 'package:flutter_course_phlox/model/model_headline.dart';
 import 'package:flutter_course_phlox/model/model_personal_data.dart';
+import 'package:flutter_course_phlox/utils/links.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../model/model_configs.dart';
 
 class HomeProvider extends ChangeNotifier{
 
-  HomeProvider(BuildContext _context){
+  BuildContext _context;
+  HomeProvider(this._context){
     apiService = ApiService(_context);
   }
-
-  ChewieController? chewieController;
-
 
   bool loading = true;
 
@@ -36,8 +38,10 @@ class HomeProvider extends ChangeNotifier{
       var _responseListHeadline = data['list'];
 
       for (var item in _responseListHeadline) {
-        _listHeadline.add(ModelHeadline.fromItem(item));
+        var model = ModelHeadline.fromItem(item);
+        _listHeadline.add(model);
       }
+      initVideoControllers();
       modelConfigs = ModelConfigs.fromJson(data['configData']);
       if(data['personalData'] != null){
         modelPersonalData = ModelPersonalData.fromJson(data['personalData']);
@@ -64,6 +68,63 @@ class HomeProvider extends ChangeNotifier{
       }
     });
 
+  }
+
+  String? _token;
+  void initVideoControllers() {
+    _token = _context.read<GlobalSettingProvider>().token;
+
+    for (var element in _listHeadline) {
+      if(element.complete){
+
+        switch(element.videoVisibility){
+          case VideoVisibility.private:
+            if((modelPersonalData?.purchased ?? false)){
+              element.videoController = VideoPlayerController.network(
+                  Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
+              )..initialize().then((_) {
+                element.chewieController = ChewieController(
+                  videoPlayerController: element.videoController,
+                  autoPlay: false,
+                  looping: false,
+                );
+                notifyListeners();
+              });
+            }
+            break;
+          case VideoVisibility.public:
+
+            if(_token != null){
+
+              element.videoController = VideoPlayerController.network(
+                Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
+              )..initialize().then((_) {
+                element.chewieController = ChewieController(
+                  videoPlayerController: element.videoController,
+                  autoPlay: false,
+                  looping: false,
+                );
+                notifyListeners();
+              });
+            }
+
+            break;
+          case VideoVisibility.global:
+            element.videoController = VideoPlayerController.network(
+                Links.courseUrl + element.id.toString() + ".mp4"
+            )..initialize().then((_) {
+              element.chewieController = ChewieController(
+                videoPlayerController: element.videoController,
+                autoPlay: false,
+                looping: false,
+              );
+              notifyListeners();
+            });
+            break;
+        }
+
+      }
+    }
   }
 
 }
