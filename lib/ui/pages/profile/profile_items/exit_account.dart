@@ -103,6 +103,7 @@ class _ExitAccountState extends State<ExitAccount> {
                                 Text(
                                   'در صورت خروج از حساب مطمئن باشید که شماره ای که با آن ثبت نام کرده اید را به خاطر دارید',
                                   textAlign: TextAlign.start,
+                                  maxLines: 2,
                                   style: TextStyle(fontSize: _isWeb ? 16 : 14, color: Colors.red.shade900
                                   ),
                                 ),
