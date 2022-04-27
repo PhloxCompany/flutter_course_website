@@ -93,8 +93,10 @@ class _WebModeState extends State<_WebMode> {
                   height: 2,
                   color: settingProvider.darkMode ? Colors.white : Colors.black,
                 ),
-                ExtraBoldText(
-                    text: homeProvider.modelPersonalData?.display_name ?? 'خالی', textSize: 80 ),
+                Flexible(
+                  child: ExtraBoldText(
+                      text: homeProvider.modelPersonalData?.display_name ?? 'خالی', textSize: 80 ,maxLine: 1),
+                ),
                 Text(
                   homeProvider.modelPersonalData?.work ?? 'خالی',
                   style: const TextStyle(color: Colors.grey, fontSize: 18),

@@ -83,15 +83,17 @@ class _MobileModeState extends State<_MobileMode>{
                 const SizedBox(
                   width: 20,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ExtraBoldText(text: homeProvider.modelPersonalData?.display_name ?? 'خالی', textSize: 44),
-                    Text(
-                      homeProvider.modelPersonalData?.work ?? 'خالی',
-                      style: const TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ExtraBoldText(text: homeProvider.modelPersonalData?.display_name ?? 'خالی', textSize: 44 , maxLine: 1,),
+                      Text(
+                        homeProvider.modelPersonalData?.work ?? 'خالی',
+                        style: const TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
