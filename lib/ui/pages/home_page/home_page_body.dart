@@ -19,6 +19,9 @@ class _HomePageBodyState extends State<HomePageBody> {
     HomeProvider homeProvider = Provider.of(context);
     GlobalSettingProvider settingProvider = Provider.of(context);
 
+    var numFormat = intl.NumberFormat("0,000");
+
+    String price = numFormat.format(30000000);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
     bool _isPhone = width <= 600;
@@ -236,6 +239,120 @@ class _HomePageBodyState extends State<HomePageBody> {
             const Text(
               "شماره تماس : 09393363664",
               style: TextStyle(fontFamily: "vazir"),
+            ),
+
+            const SizedBox(
+              height: 30,
+            ),
+
+            const ExtraBoldText(
+              text: "دوره در حال ضبط",
+              textSize: 24,
+              color: Colors.green,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    elevation: 32,
+                    color: settingProvider.darkMode
+                        ? AppColors.blueBgDark
+                        : Colors.amber.shade50,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      side: BorderSide(
+                          color: settingProvider.darkMode
+                              ? Colors.blueGrey.shade900
+                              : Colors.white,
+                          width: 2
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const BoldText(text: 'دوره صفر تا صد فلاتر', textSize: 24,),
+                          const SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  [
+                              Text(price , style: const TextStyle(textBaseline: TextBaseline.alphabetic , decoration: TextDecoration.lineThrough , color: Colors.red , fontSize: 30),),
+                              const SizedBox(width: 6,),
+                              const Text('ریال' , style: TextStyle(fontSize: 24),),
+                            ],
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: MaterialButton(
+                            color: Colors.black,
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Text(
+                                  "978",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'sans_bold',
+                                  ),
+                                ),
+                                Text(
+                                  " هزار تومان",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'sans_bold',
+                                    fontSize: 12
+                                  ),
+                                ),
+                              ],
+                            ),
+                            elevation: 32,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: _isWeb
+                                    ? 42
+                                    : _isPhone
+                                    ? 18
+                                    : 24,
+                                vertical: _isPhone ? 12 : 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                        )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if(_isWeb) const SizedBox(width: 50,),
+                if(_isWeb) Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ExtraBoldText(
+                        text: "متخصص فلاتر شو",
+                        textSize: _isWeb
+                            ? 82
+                            : _isPhone
+                            ? 28
+                            : 32,
+                      ),
+                      const BoldText(text: 'یک فریمورک برای توسعه در چند پلتفرم'),
+                      const SizedBox(height: 60,),
+
+                    ],
+                  ),
+                ),
+              ],
             )
           ],
         ),
