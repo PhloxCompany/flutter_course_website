@@ -14,7 +14,7 @@ import '../../model/model_configs.dart';
 
 class HomeProvider extends ChangeNotifier{
 
-  BuildContext _context;
+  final BuildContext _context;
   HomeProvider(this._context){
     apiService = ApiService(_context);
   }

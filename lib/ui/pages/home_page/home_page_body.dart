@@ -21,13 +21,23 @@ class _HomePageBodyState extends State<HomePageBody> {
 
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
+    bool _isPhone = width <= 600;
 
     return Padding(
-      padding: EdgeInsets.all(_isWeb ? 32 : 16),
+      padding: EdgeInsets.all(_isWeb
+          ? 32
+          : _isPhone
+              ? 8
+              : 16),
       child: Container(
         width: _isWeb ? 1024 : double.infinity,
-        padding:
-            EdgeInsets.symmetric(horizontal: _isWeb ? 68 : 32, vertical: 32),
+        padding: EdgeInsets.symmetric(
+            horizontal: _isWeb
+                ? 48
+                : _isPhone
+                    ? 12
+                    : 32,
+            vertical: _isPhone ? 12 : 32),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
@@ -52,51 +62,7 @@ class _HomePageBodyState extends State<HomePageBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // app bar
-            CustomAppBar(
-              actions: [
-                const Spacer(),
-                IconButton(
-                    onPressed: () => settingProvider.changeThemeMode(),
-                    icon: Icon(settingProvider.darkMode
-                        ? Icons.light_mode
-                        : Icons.dark_mode)),
-                PhloxAnime(
-                  millisecondsDelay: 300,
-                  child: homeProvider.modelPersonalData == null
-                      ? BorderButtonWidget(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, LoginWithPhoneUi.routeName);
-                          },
-                          text: "ورود",
-                          padding: EdgeInsets.symmetric(
-                              horizontal: _isWeb ? 42 : 24, vertical: 20))
-                      : MaterialButton(
-                    onPressed: () => Navigator.pushNamed(context, ProfilePage.routeName),
-                    minWidth: 0,
-                    padding: EdgeInsets.zero,
-
-                          elevation: 32,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                              side: const BorderSide(color: Colors.white, width: 1)),
-                          color: settingProvider.darkMode
-                              ? Colors.grey[900]
-                              : Colors.grey[100],
-                          child: SizedBox(
-                            width: 46,
-                            height: 46,
-                            child:
-                                homeProvider.modelPersonalData!.profile_url ==
-                                        null
-                                    ? const Icon(Icons.person)
-                                    : Image.network(Links.profileUrl + homeProvider
-                                        .modelPersonalData!.profile_url!),
-                          ),
-                        ),
-                )
-              ],
-            ),
+            const CustomAppBar(),
 
             // babak image
             if (!_isWeb) _babak,
@@ -116,7 +82,11 @@ class _HomePageBodyState extends State<HomePageBody> {
                       millisecondsDelay: 900,
                       child: ExtraBoldText(
                         text: "متخصص فلاتر شو",
-                        textSize: _isWeb ? 82 : 32,
+                        textSize: _isWeb
+                            ? 82
+                            : _isPhone
+                                ? 28
+                                : 32,
                       ),
                     ),
                     const PhloxAnime(
@@ -138,24 +108,34 @@ class _HomePageBodyState extends State<HomePageBody> {
                       children: [
                         PhloxAnime(
                             child: ButtonBlack(
-                                onPressed: () {},
-                                text: "ثبت نام در دوره",
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: _isWeb ? 42 : 24,
-                                    vertical: 20)),
+                              onPressed: () {},
+                              text: "ثبت نام در دوره",
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: _isWeb
+                                      ? 42
+                                      : _isPhone
+                                          ? 18
+                                          : 24,
+                                  vertical: _isPhone ? 18 : 20),
+                            ),
                             millisecondsDelay: 1500),
                         const SizedBox(
                           width: 12,
                         ),
                         PhloxAnime(
-                          millisecondsDelay: 1600,
-                          child: BorderButtonWidget(
+                            millisecondsDelay: 1600,
+                            child: BorderButtonWidget(
                               onPressed: () =>
                                   settingProvider.scrollToHeadline(_isWeb),
                               text: "سرفصل های دوره",
                               padding: EdgeInsets.symmetric(
-                                  horizontal: _isWeb ? 42 : 24, vertical: 20)),
-                        ),
+                                  horizontal: _isWeb
+                                      ? 42
+                                      : _isPhone
+                                          ? 18
+                                          : 24,
+                                  vertical: _isPhone ? 18 : 20),
+                            )),
                       ],
                     )
                   ],

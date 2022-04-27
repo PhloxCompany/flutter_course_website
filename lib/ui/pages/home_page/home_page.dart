@@ -14,13 +14,11 @@ import 'package:provider/provider.dart';
 import '../../../controller/providers/global_setting_provider.dart';
 import '../login/login_with_phone.dart';
 import '../../widgets/text/extra_bold_text.dart';
-import 'custom_app_bar.dart';
 import 'item_headline.dart';
 
 part 'home_page_body.dart';
-
+part 'custom_app_bar.dart';
 part 'home_page_bottom_nav.dart';
-
 part 'home_page_body_widgets.dart';
 
 class HomePage extends StatelessWidget {

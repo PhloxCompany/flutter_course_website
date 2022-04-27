@@ -24,8 +24,8 @@ class _HomePageBottomNavigation extends StatelessWidget {
           elevation: 32,
           child: Container(
             width: _isWeb ? 1060 : double.infinity,
-            height: _isWeb ? 90 : 70,
-            padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 14),
+            height: _isWeb ? 90 : 80,
+            padding: EdgeInsets.symmetric(horizontal: _isWeb ? 42 : 12),
             decoration: BoxDecoration(
               color: settingProvider.darkMode
                   ? Colors.blueGrey.shade800
@@ -41,18 +41,18 @@ class _HomePageBottomNavigation extends StatelessWidget {
             ),
             child: Row(
               children: [
-                if (width > 400) const Text("دوره آنلاین"),
+                if (width > 560) const Text("دوره آنلاین"),
                 const SizedBox(
                   width: 12,
                 ),
                 ExtraBoldText(
                   text: "متخصص فلاتر شو",
-                  textSize: _isWeb ? 32 : 18,
+                  textSize: _isWeb ? 32 : 22,
                 ),
                 const Spacer(),
                 if(homeProvider.modelConfigs != null)
-                  if(homeProvider.modelConfigs!.hasDiscount == "1")
-                  PhloxAnime(
+                  if(homeProvider.modelConfigs!.hasDiscount == "1" && width > 512)
+                  const PhloxAnime(
                   millisecondsDelay: 1500,
                   child: Text("تخفیف ویژه", style: TextStyle(
                     color: Colors.red,

@@ -1,23 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_course_phlox/ui/pages/home_page/home_page.dart';
-
-import '../../widgets/animate/phlox_anime.dart';
-import '../../widgets/text/bold_text.dart';
+part of "home_page.dart";
 
 class CustomAppBar extends StatelessWidget {
-  final List<Widget>? actions;
-  const CustomAppBar({Key? key, this.actions }) : super(key: key);
+  const CustomAppBar({Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: false);
+    HomeProvider homeProvider = Provider.of(context, listen: true);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
+    bool _isPhone = width <= 600;
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
+            Expanded(
               child: PhloxAnime(
                   millisecondsDelay: 100,
                   child: InkWell(
@@ -27,12 +24,64 @@ class CustomAppBar extends StatelessWidget {
                     ),
                   )),
             ),
-            if(actions != null)
-              ...actions!
+
+            IconButton(
+                onPressed: () => settingProvider.changeThemeMode(),
+                icon: Icon(settingProvider.darkMode
+                    ? Icons.light_mode
+                    : Icons.dark_mode)),
+
+            const SizedBox(width: 12,),
+            homeProvider.loading == false ? PhloxAnime(
+              millisecondsDelay: 300,
+              child: homeProvider.modelPersonalData == null
+                  ? BorderButtonWidget(
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, LoginWithPhoneUi.routeName);
+                },
+                text: "ورود",
+                padding: EdgeInsets.symmetric(
+                    horizontal: _isWeb
+                        ? 42
+                        : _isPhone
+                        ? 18
+                        : 24,
+                    vertical: _isPhone ? 18 : 20),
+              )
+                  : MaterialButton(
+                onPressed: () => Navigator.pushNamed(
+                    context, ProfilePage.routeName),
+                minWidth: 0,
+                padding: EdgeInsets.zero,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                elevation: 32,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(
+                        color: Colors.white, width: 1)),
+                color: settingProvider.darkMode
+                    ? Colors.grey[900]
+                    : Colors.grey[100],
+                child: SizedBox(
+                  width: 46,
+                  height: 46,
+                  child:
+                  homeProvider.modelPersonalData!.profile_url ==
+                      null
+                      ? const Icon(Icons.person)
+                      : Image.network(Links.profileUrl +
+                      homeProvider
+                          .modelPersonalData!.profile_url!),
+                ),
+              ),
+            ) : Container(
+              width: 46,
+              height: 46,)
           ],
         ),
         const SizedBox(
-          height: 46,
+          height: 38,
         ),
       ],
     );
