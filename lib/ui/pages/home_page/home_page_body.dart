@@ -24,13 +24,13 @@ class _HomePageBodyState extends State<HomePageBody> {
     String price = numFormat.format(30000000);
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-    bool _isPhone = width <= 600;
+    bool _isPhone = width <= 512;
 
     return Padding(
       padding: EdgeInsets.all(_isWeb
           ? 32
           : _isPhone
-              ? 8
+              ? 12
               : 16),
       child: Container(
         width: _isWeb ? 1024 : double.infinity,
@@ -38,7 +38,7 @@ class _HomePageBodyState extends State<HomePageBody> {
             horizontal: _isWeb
                 ? 48
                 : _isPhone
-                    ? 12
+                    ? 18
                     : 32,
             vertical: _isPhone ? 12 : 32),
         decoration: BoxDecoration(

@@ -17,6 +17,13 @@ class ItemHeadline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
+
+
+    double width = MediaQuery.of(context).size.width;
+    bool _isWeb = width >= 1024;
+    bool _isPhone = width <= 600;
+
+
     return _itemHeadLine(context,
         body: Column(
           children: [
@@ -33,7 +40,7 @@ class ItemHeadline extends StatelessWidget {
                   width: 2
                 ),
               ),
-              margin: const EdgeInsets.all(24),
+              margin: EdgeInsets.all(_isWeb ? 24 : _isPhone ? 8 : 18),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: _video(modelHeadline, context),
@@ -186,34 +193,42 @@ class ItemHeadline extends StatelessWidget {
         ],
       );
 
-  Widget showGoToSignIn(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const ExtraBoldText(
-            text: "برای مشاهده، وارد شوید",
-            textSize: 32,
-          ),
-          const Text("برای دیدن این ویدیو باید وارد اکانت خود شوید"),
-          BorderButtonWidget(
-              onPressed: () {
-                Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
-              },
-              text: "ورود",
-              padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20))
-        ],
-      );
+  Widget showGoToSignIn(BuildContext context) {
 
-  Widget showGoToPurchase(BuildContext context) {
-    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
+    double width = MediaQuery.of(context).size.width;
+    bool _isPhone = width <= 600;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const ExtraBoldText(
+        ExtraBoldText(
+          text: "برای مشاهده، وارد شوید",
+          textSize: _isPhone ? 24 :  32,
+        ),
+        const Text("برای دیدن این ویدیو باید وارد اکانت خود شوید"),
+        BorderButtonWidget(
+            onPressed: () {
+              Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
+            },
+            text: "ورود",
+            padding: EdgeInsets.symmetric(horizontal:  _isPhone ? 24 : 42, vertical: _isPhone ?  14 :20))
+      ],
+    );
+  }
+
+  Widget showGoToPurchase(BuildContext context) {
+    GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
+
+    double width = MediaQuery.of(context).size.width;
+    bool _isPhone = width <= 600;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ExtraBoldText(
           text: "جدید ترین دوره فلاتر",
-          textSize: 32,
+          textSize: _isPhone ? 24 : 32,
         ),
         const Text("برای دیدن این ویدیو باید دوره را خریداری کنید"),
         BorderButtonWidget(
