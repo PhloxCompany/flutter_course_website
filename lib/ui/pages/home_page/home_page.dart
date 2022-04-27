@@ -18,7 +18,9 @@ import 'custom_app_bar.dart';
 import 'item_headline.dart';
 
 part 'home_page_body.dart';
+
 part 'home_page_bottom_nav.dart';
+
 part 'home_page_body_widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,6 +30,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var settingProvider = context.watch<GlobalSettingProvider>();
+    var homeProvider = context.watch<HomeProvider>();
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -44,7 +47,9 @@ class HomePage extends StatelessWidget {
                 child: HomePageBody(),
               ),
             ),
-            const _HomePageBottomNavigation()
+            if ((homeProvider.modelPersonalData?.purchased ?? false) == false &&
+                homeProvider.loading == false)
+              const _HomePageBottomNavigation()
           ],
         ),
       ),
