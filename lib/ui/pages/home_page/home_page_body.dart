@@ -281,12 +281,39 @@ class _HomePageBodyState extends State<HomePageBody> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const BoldText(
+
+                              const ExtraBoldText(
                                 text: 'دوره صفر تا صد فلاتر',
-                                textSize: 24,
+                                textSize: 32,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 10,
+                              ),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    children: [
+                                      const Icon(Icons.visibility_rounded),
+                                      Text(homeProvider.modelConfigs?.home ?? "0",
+                                        style: const TextStyle(fontFamily: 'vazir',fontSize: 12, fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const Icon(Icons.account_circle_rounded),
+                                      Text(homeProvider.modelConfigs?.buyCount ?? "0",
+                                        style: const TextStyle(fontFamily: 'vazir',fontSize: 12, fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(
+                                height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
