@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 class ItemHeadline extends StatelessWidget {
   final ModelHeadline modelHeadline;
 
-  const ItemHeadline({Key? key, required this.modelHeadline}) : super(key: key);
+  const ItemHeadline(
+      {Key? key, required this.modelHeadline})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,11 @@ class ItemHeadline extends StatelessWidget {
     bool _isWeb = width >= 1024;
     bool _isPhone = width <= 400;
 
-    return _itemHeadLine(context,
+    return modelHeadline.headlineType == "title" ?
+        _itemTitle(context)
+        : _itemHeadLine(context,
         body: Column(
-          children: [
+          children:  [
             Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
               elevation: 32,
@@ -92,6 +96,29 @@ class ItemHeadline extends StatelessWidget {
                     children: [
                       Row(
                         children: [
+                          Card(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(10),
+                              child: Text(
+                                "${modelHeadline.index}",
+                                style: const TextStyle(fontSize: 12, fontFamily: 'vazir'),
+                              ),
+                            ),
+                            margin: const EdgeInsets.symmetric(horizontal: 12),
+                            elevation: 32,
+                            color: settingProvider.darkMode
+                                ? AppColors.blueBg
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                  color: settingProvider.darkMode
+                                      ? Colors.black
+                                      : Colors.white,
+                                  width: 1),
+                            ),
+                          ),
                           Expanded(child: Text(modelHeadline.title)),
                           if (width > 400) _row1()
                         ],
@@ -134,13 +161,14 @@ class ItemHeadline extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            modelHeadline.time,
-            style: const TextStyle(
-              fontFamily: 'vazir',
-              fontWeight: FontWeight.bold,
+          if (modelHeadline.complete)
+            Text(
+              modelHeadline.time,
+              style: const TextStyle(
+                fontFamily: 'vazir',
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
         ],
       );
 
@@ -150,7 +178,9 @@ class ItemHeadline extends StatelessWidget {
     switch (modelHeadline.videoVisibility) {
       case VideoVisibility.private:
         return (settingProvider.token != null)
-            ? ((context.read<HomeProvider>().modelPersonalData?.purchased ?? false) == false)
+            ? ((context.read<HomeProvider>().modelPersonalData?.purchased ??
+                        false) ==
+                    false)
                 ? showGoToPurchase(context)
                 : (modelHeadline.complete == false)
                     ? waitToComplete(context)
@@ -167,29 +197,29 @@ class ItemHeadline extends StatelessWidget {
       case VideoVisibility.public:
         return (settingProvider.token != null)
             ? (modelHeadline.complete == false)
+                ? waitToComplete(context)
+                : (modelHeadline.chewieController != null &&
+                        modelHeadline.videoController.value.isInitialized)
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Chewie(
+                          controller: modelHeadline.chewieController!,
+                        ),
+                      )
+                    : _loading()
+            : showGoToSignIn(context);
+      case VideoVisibility.global:
+        return (modelHeadline.complete == false)
             ? waitToComplete(context)
-            :  (modelHeadline.chewieController != null &&
-                    modelHeadline.videoController.value.isInitialized)
+            : modelHeadline.chewieController != null &&
+                    modelHeadline.videoController.value.isInitialized
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(24),
                     child: Chewie(
                       controller: modelHeadline.chewieController!,
                     ),
                   )
-                : _loading()
-            : showGoToSignIn(context);
-      case VideoVisibility.global:
-        return (modelHeadline.complete == false)
-            ? waitToComplete(context)
-            :  modelHeadline.chewieController != null &&
-                modelHeadline.videoController.value.isInitialized
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Chewie(
-                  controller: modelHeadline.chewieController!,
-                ),
-              )
-            : _loading();
+                : _loading();
     }
   }
 
@@ -261,6 +291,31 @@ class ItemHeadline extends StatelessWidget {
         ),
         const Text("لطفا منتظر آپلود ویدیو باشید!"),
       ],
+    );
+  }
+
+  Widget _itemTitle(context) {
+
+    double width = MediaQuery.of(context).size.width;
+    bool _isWeb = width >= 1024;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          const Divider(color: Colors.grey, height: 1),
+
+          ExtraBoldText(
+            text: modelHeadline.title,
+            textSize: _isWeb ? 32 : 24,
+          ),
+
+          if(modelHeadline.des != null)
+            Text(modelHeadline.des!)
+
+        ],
+      ),
     );
   }
 }

@@ -225,6 +225,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                 textSize: 32,
               ),
             ),
+
             homeProvider.loading
                 ? const CircularProgressIndicator()
                 : ListView.builder(
@@ -239,23 +240,26 @@ class _HomePageBodyState extends State<HomePageBody> {
               height: 30,
             ),
 
-            const Text(
-              "شماره تماس : 09393363664",
-              style: TextStyle(fontFamily: "vazir"),
+            const ExtraBoldText(
+              text: "دوره در حال ضبط",
+              textSize: 24,
+              color: Colors.green,
             ),
 
             const SizedBox(
               height: 30,
             ),
 
-            const ExtraBoldText(
-              text: "دوره در حال ضبط",
-              textSize: 24,
-              color: Colors.green,
+            const Text(
+              "شماره تماس : 09393363664",
+              style: TextStyle(fontFamily: "vazir"),
             ),
+
             const SizedBox(
               height: 10,
             ),
+
+
             if (homeProvider.modelConfigs != null)
               if ((homeProvider.modelPersonalData?.purchased ?? false) == false)
                 Wrap(
@@ -342,7 +346,11 @@ class _HomePageBodyState extends State<HomePageBody> {
                                 color: Colors.black,
                                 minWidth: double.infinity,
                                 onPressed: () {
-                                  homeProvider.startPay();
+
+                                  settingProvider.token == null
+                                      ? Navigator.pushNamed(
+                                      context, LoginWithPhoneUi.routeName)
+                                      : homeProvider.startPay();
                                 },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,

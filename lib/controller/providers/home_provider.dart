@@ -37,8 +37,13 @@ class HomeProvider extends ChangeNotifier{
         res: (data){
       var _responseListHeadline = data['list'];
 
+      int displayIndex = 0;
       for (var item in _responseListHeadline) {
         var model = ModelHeadline.fromItem(item);
+        if(item['type'] == "head"){
+          displayIndex++;
+          model.index = displayIndex;
+        }
         _listHeadline.add(model);
       }
       initVideoControllers();

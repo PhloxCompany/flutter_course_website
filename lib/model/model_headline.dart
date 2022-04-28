@@ -3,7 +3,9 @@ import 'package:video_player/video_player.dart';
 
 class ModelHeadline {
 
+  int index = 0;
   int id;
+  String headlineType;
   String title;
   String? des;
   bool complete;
@@ -17,6 +19,7 @@ class ModelHeadline {
 
   ModelHeadline(
       {required this.id,
+      required this.headlineType,
       required this.title,
       required this.des,
       required this.complete,
@@ -27,6 +30,7 @@ class ModelHeadline {
 
   factory ModelHeadline.fromItem(var item) => ModelHeadline(
       id: item['id'],
+    headlineType: item['type'],
       title: item['head_title'],
     des: item['des'],
       complete: item['is_completed'] == 1,
@@ -34,6 +38,7 @@ class ModelHeadline {
       time: item['time'],
       sortId: item['sortId'],
   );
+
 }
 
 enum VideoVisibility{
