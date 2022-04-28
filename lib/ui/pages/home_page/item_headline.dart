@@ -18,11 +18,9 @@ class ItemHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
 
-
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
     bool _isPhone = width <= 400;
-
 
     return _itemHeadLine(context,
         body: Column(
@@ -32,22 +30,27 @@ class ItemHeadline extends StatelessWidget {
               elevation: 32,
               color: settingProvider.darkMode ? AppColors.blueBg : Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
-                    color: settingProvider.darkMode
-                        ? Colors.black
-                        : Colors.white,
-                  width: 1
-                ),
+                    color:
+                        settingProvider.darkMode ? Colors.black : Colors.white,
+                    width: 1),
               ),
-              margin: EdgeInsets.all(_isWeb ? 24 : _isPhone ? 4 : 18),
+              margin: EdgeInsets.all(_isWeb
+                  ? 24
+                  : _isPhone
+                      ? 4
+                      : 18),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: _video(modelHeadline, context),
               ),
             ),
             if (modelHeadline.des != null) Text('''${modelHeadline.des}'''),
-            if (modelHeadline.des != null) const SizedBox(height: 12,),
+            if (modelHeadline.des != null)
+              const SizedBox(
+                height: 12,
+              ),
           ],
         ));
   }
@@ -147,54 +150,45 @@ class ItemHeadline extends StatelessWidget {
     switch (modelHeadline.videoVisibility) {
       case VideoVisibility.private:
         return (settingProvider.token != null)
-            ? (settingProvider.purchased == false)
+            ? ((context.read<HomeProvider>().modelPersonalData?.purchased ?? false) == false)
                 ? showGoToPurchase(context)
-                : (modelHeadline.chewieController != null &&
-                        modelHeadline.videoController.value.isInitialized)
-                    ? Theme(
-          data: ThemeData.light().copyWith(
-            platform: TargetPlatform.iOS,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Chewie(
-              controller: modelHeadline.chewieController!,
-            ),
-          ),
-        )
-                    : _loading()
+                : (modelHeadline.complete == false)
+                    ? waitToComplete(context)
+                    : (modelHeadline.chewieController != null &&
+                            modelHeadline.videoController.value.isInitialized)
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(24),
+                            child: Chewie(
+                              controller: modelHeadline.chewieController!,
+                            ),
+                          )
+                        : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.public:
         return (settingProvider.token != null)
-            ? (modelHeadline.chewieController != null &&
+            ? (modelHeadline.complete == false)
+            ? waitToComplete(context)
+            :  (modelHeadline.chewieController != null &&
                     modelHeadline.videoController.value.isInitialized)
-                ? Theme(
-                  data: ThemeData.light().copyWith(
-                    platform: TargetPlatform.iOS,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
                     child: Chewie(
                       controller: modelHeadline.chewieController!,
                     ),
-                  ),
-                )
+                  )
                 : _loading()
             : showGoToSignIn(context);
       case VideoVisibility.global:
-        return modelHeadline.chewieController != null &&
+        return (modelHeadline.complete == false)
+            ? waitToComplete(context)
+            :  modelHeadline.chewieController != null &&
                 modelHeadline.videoController.value.isInitialized
-            ? Theme(
-          data: ThemeData.light().copyWith(
-            platform: TargetPlatform.iOS,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Chewie(
-              controller: modelHeadline.chewieController!,
-            ),
-          ),
-        )
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Chewie(
+                  controller: modelHeadline.chewieController!,
+                ),
+              )
             : _loading();
     }
   }
@@ -209,7 +203,6 @@ class ItemHeadline extends StatelessWidget {
       );
 
   Widget showGoToSignIn(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     bool _isPhone = width <= 600;
 
@@ -219,7 +212,7 @@ class ItemHeadline extends StatelessWidget {
       children: [
         ExtraBoldText(
           text: "برای مشاهده، وارد شوید",
-          textSize: _isPhone ? 24 :  32,
+          textSize: _isPhone ? 24 : 32,
         ),
         const Text("برای دیدن این ویدیو باید وارد اکانت خود شوید"),
         BorderButtonWidget(
@@ -227,7 +220,8 @@ class ItemHeadline extends StatelessWidget {
               Navigator.pushNamed(context, LoginWithPhoneUi.routeName);
             },
             text: "ورود",
-            padding: EdgeInsets.symmetric(horizontal:  _isPhone ? 24 : 42, vertical: _isPhone ?  14 :20))
+            padding: EdgeInsets.symmetric(
+                horizontal: _isPhone ? 24 : 42, vertical: _isPhone ? 14 : 20))
       ],
     );
   }
@@ -250,6 +244,22 @@ class ItemHeadline extends StatelessWidget {
             onPressed: () => settingProvider.scrollToPrice(context),
             text: "پرداخت",
             padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20))
+      ],
+    );
+  }
+
+  Widget waitToComplete(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    bool _isPhone = width <= 600;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ExtraBoldText(
+          text: "در حال ضبط",
+          textSize: _isPhone ? 24 : 32,
+        ),
+        const Text("لطفا منتظر آپلود ویدیو باشید!"),
       ],
     );
   }

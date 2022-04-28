@@ -19,7 +19,7 @@ class ApiService {
 
   void validateResponse(Response response, String tag) {
 
-    var _data = json.decode(response.data);
+    Map _data = json.decode(response.data);
     debugPrint(_data.toString());
     if (_data['result'] == true||_data['status'] == 200) {
       // request OK
@@ -33,11 +33,14 @@ class ApiService {
       debugPrint("response data : ${response.data}");
       debugPrint("#######################");
 
-      if (response.statusCode == 401) {
-        // TOKEN EXPIRED
-        context.read<GlobalSettingProvider>().removeToken();
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomePage.routeName, (route) => false);
+      if(_data.containsKey("action")){
+        if (_data['action'] == "EXPIRED") {
+          // TOKEN EXPIRED
+          context.read<GlobalSettingProvider>().removeToken().then((value) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomePage.routeName, (route) => false);
+          });
+        }
       }
     }
   }

@@ -8,6 +8,7 @@ import 'package:flutter_course_phlox/ui/widgets/text/bold_text.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/text_li_widget.dart';
 import 'package:flutter_course_phlox/utils/colors.dart';
 import 'package:flutter_course_phlox/utils/links.dart';
+import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import '../../../controller/providers/global_setting_provider.dart';

@@ -37,4 +37,12 @@ class Utils {
                   : Colors.yellow.shade50,
             ));
   }
+
+  static String amountSlice(String amount){
+    amount = amount.substring(0, amount.length - (3 + 1)); // rials
+    return amount;
+  }
+
+
+
 }

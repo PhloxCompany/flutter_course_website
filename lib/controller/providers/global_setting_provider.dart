@@ -11,7 +11,6 @@ class GlobalSettingProvider extends ChangeNotifier {
 
   String? get token => preference.getString("token");
 
-  bool get purchased => preference.getBool("purchased") ?? false;
 
   ThemeMode themeMode = ThemeMode.system;
 

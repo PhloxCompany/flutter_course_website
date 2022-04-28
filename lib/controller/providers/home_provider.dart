@@ -79,7 +79,8 @@ class HomeProvider extends ChangeNotifier{
 
         switch(element.videoVisibility){
           case VideoVisibility.private:
-            if((modelPersonalData?.purchased ?? false)){
+            if((modelPersonalData?.purchased ?? false) == false &&
+                loading == false){
               element.videoController = VideoPlayerController.network(
                   Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
               )..initialize().then((_) {
