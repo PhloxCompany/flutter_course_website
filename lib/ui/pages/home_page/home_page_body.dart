@@ -39,6 +39,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                     ? 18
                     : 32,
             vertical: _isPhone ? 12 : 32),
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
@@ -72,48 +73,72 @@ class _HomePageBodyState extends State<HomePageBody> {
             Row(
               children: [
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const PhloxAnime(
-                      child: Text("_____ دوره آنلاین"),
-                      millisecondsDelay: 600,
-                    ),
-                    PhloxAnime(
-                      millisecondsDelay: 900,
-                      child: ExtraBoldText(
-                        text: "متخصص فلاتر شو",
-                        textSize: _isWeb
-                            ? 82
-                            : _isPhone
-                                ? 28
-                                : 32,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const PhloxAnime(
+                        child: Text("_____ دوره آنلاین"),
+                        millisecondsDelay: 600,
                       ),
-                    ),
-                    const PhloxAnime(
-                      child:
-                          BoldText(text: 'یک فریمورک برای توسعه در چند پلتفرم'),
-                      millisecondsDelay: 1100,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    const PhloxAnime(
-                      child: Text("با تدریس بابک قهرمان زاده"),
-                      millisecondsDelay: 1300,
-                    ),
-                    const SizedBox(
-                      height: 46,
-                    ),
-                    Wrap(
-                      children: [
-                        if(homeProvider.loading == false)
-                        if ((homeProvider.modelPersonalData?.purchased ?? false) == false)
+                      PhloxAnime(
+                        millisecondsDelay: 900,
+                        child: ExtraBoldText(
+                          text: "متخصص فلاتر شو",
+                          textSize: _isWeb
+                              ? 82
+                              : _isPhone
+                                  ? 28
+                                  : 32,
+                        ),
+                      ),
+                      const PhloxAnime(
+                        child: BoldText(
+                            text: 'یک فریمورک برای توسعه در چند پلتفرم'),
+                        millisecondsDelay: 1100,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const PhloxAnime(
+                        child: Text("با تدریس بابک قهرمان زاده"),
+                        millisecondsDelay: 1300,
+                      ),
+                      const SizedBox(
+                        height: 46,
+                      ),
+                      Wrap(
+                        children: [
+                          if (homeProvider.loading == false)
+                            if ((homeProvider.modelPersonalData?.purchased ??
+                                    false) ==
+                                false)
+                              PhloxAnime(
+                                  child: ButtonBlack(
+                                    onPressed: () =>
+                                        settingProvider.scrollToPrice(context),
+                                    text: "ثبت نام در دوره",
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: _isWeb
+                                            ? 42
+                                            : _isPhone
+                                                ? 18
+                                                : 24,
+                                        vertical: _isPhone ? 18 : 20),
+                                  ),
+                                  millisecondsDelay: 1500),
+                          if (homeProvider.loading == false)
+                            if ((homeProvider.modelPersonalData?.purchased ??
+                                    false) ==
+                                false)
+                              const SizedBox(
+                                width: 12,
+                              ),
                           PhloxAnime(
-                              child: ButtonBlack(
+                              millisecondsDelay: 1600,
+                              child: BorderButtonWidget(
                                 onPressed: () =>
-                                    settingProvider.scrollToPrice(context),
-                                text: "ثبت نام در دوره",
+                                    settingProvider.scrollToHeadline(_isWeb),
+                                text: "سرفصل های دوره",
                                 padding: EdgeInsets.symmetric(
                                     horizontal: _isWeb
                                         ? 42
@@ -121,31 +146,12 @@ class _HomePageBodyState extends State<HomePageBody> {
                                             ? 18
                                             : 24,
                                     vertical: _isPhone ? 18 : 20),
-                              ),
-                              millisecondsDelay: 1500),
-                        if(homeProvider.loading == false)
-                        if ((homeProvider.modelPersonalData?.purchased ?? false) == false)
-                          const SizedBox(
-                            width: 12,
-                          ),
-                        PhloxAnime(
-                            millisecondsDelay: 1600,
-                            child: BorderButtonWidget(
-                              onPressed: () =>
-                                  settingProvider.scrollToHeadline(_isWeb),
-                              text: "سرفصل های دوره",
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: _isWeb
-                                      ? 42
-                                      : _isPhone
-                                          ? 18
-                                          : 24,
-                                  vertical: _isPhone ? 18 : 20),
-                            )),
-                      ],
-                    )
-                  ],
-                )),
+                              )),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 if (_isWeb) Expanded(child: _babak),
               ],
             ),
@@ -237,7 +243,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                   ),
 
             const SizedBox(
-              height: 30,
+              height: 10,
             ),
 
             const ExtraBoldText(
@@ -247,7 +253,7 @@ class _HomePageBodyState extends State<HomePageBody> {
             ),
 
             const SizedBox(
-              height: 30,
+              height: 32,
             ),
 
             const Text(
@@ -258,7 +264,6 @@ class _HomePageBodyState extends State<HomePageBody> {
             const SizedBox(
               height: 10,
             ),
-
 
             if (homeProvider.modelConfigs != null)
               if ((homeProvider.modelPersonalData?.purchased ?? false) == false)
@@ -285,7 +290,6 @@ class _HomePageBodyState extends State<HomePageBody> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-
                               const ExtraBoldText(
                                 text: 'دوره صفر تا صد فلاتر',
                                 textSize: 32,
@@ -293,29 +297,37 @@ class _HomePageBodyState extends State<HomePageBody> {
                               const SizedBox(
                                 height: 10,
                               ),
-
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     children: [
                                       const Icon(Icons.visibility_rounded),
-                                      Text(homeProvider.modelConfigs?.home ?? "0",
-                                        style: const TextStyle(fontFamily: 'vazir',fontSize: 12, fontWeight: FontWeight.bold),
+                                      Text(
+                                        homeProvider.modelConfigs?.home ?? "0",
+                                        style: const TextStyle(
+                                            fontFamily: 'vazir',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
                                       )
                                     ],
                                   ),
                                   Column(
                                     children: [
                                       const Icon(Icons.account_circle_rounded),
-                                      Text(homeProvider.modelConfigs?.buyCount ?? "0",
-                                        style: const TextStyle(fontFamily: 'vazir',fontSize: 12, fontWeight: FontWeight.bold),
+                                      Text(
+                                        homeProvider.modelConfigs?.buyCount ??
+                                            "0",
+                                        style: const TextStyle(
+                                            fontFamily: 'vazir',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
                                       )
                                     ],
                                   ),
                                 ],
                               ),
-
                               const SizedBox(
                                 height: 10,
                               ),
@@ -346,10 +358,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                                 color: Colors.black,
                                 minWidth: double.infinity,
                                 onPressed: () {
-
                                   settingProvider.token == null
                                       ? Navigator.pushNamed(
-                                      context, LoginWithPhoneUi.routeName)
+                                          context, LoginWithPhoneUi.routeName)
                                       : homeProvider.startPay();
                                 },
                                 child: Row(
