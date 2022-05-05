@@ -16,6 +16,7 @@ import 'ui/pages/home_page/home_page.dart';
 import 'ui/pages/sign_up/sign_up.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
   SharedPreferences preferences = await SharedPreferences.getInstance();
   runApp(_Providers(preferences: preferences));
@@ -49,6 +50,7 @@ class _Providers extends StatelessWidget {
   }
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class _MyApp extends StatelessWidget {
   const _MyApp({Key? key}) : super(key: key);
 
@@ -66,6 +68,7 @@ class _MyApp extends StatelessWidget {
     return Consumer<GlobalSettingProvider>(builder: (_, settingProvider, __) {
 
       return MaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Flutter course | Phlox company',
         debugShowCheckedModeBanner: false,
         themeMode: settingProvider.darkMode

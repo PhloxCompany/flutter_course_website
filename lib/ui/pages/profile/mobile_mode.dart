@@ -42,11 +42,11 @@ class _MobileModeState extends State<_MobileMode>{
                   width: 120,
                   child: InkWell(
                     onTap: () async{
-                      Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+                      var bytesFromPicker = await FilePicker.platform.pickFiles();
                       if(bytesFromPicker == null){
                         return;
                       }
-                      mobileModeProvider.requestProfileImage(context,bytesFromPicker);
+                      mobileModeProvider.requestProfileImage(context,bytesFromPicker.files.first.bytes!);
                     },
                     child: Stack(
                       children: [

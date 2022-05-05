@@ -5,6 +5,7 @@ import 'package:flutter_course_phlox/controller/providers/global_setting_provide
 import 'package:flutter_course_phlox/ui/pages/home_page/home_page.dart';
 import 'package:flutter_course_phlox/utils/utils.dart';
 import 'package:provider/provider.dart';
+import '../main.dart';
 
 class ApiService {
   static final Dio dio = Dio(
@@ -18,10 +19,9 @@ class ApiService {
   ApiService(this.context);
 
   void validateResponse(Response response, String tag) {
-
     Map _data = json.decode(response.data);
     debugPrint(_data.toString());
-    if (_data['result'] == true||_data['status'] == 200) {
+    if (_data['result'] == true || _data['status'] == 200) {
       // request OK
       return;
     } else {
@@ -33,12 +33,14 @@ class ApiService {
       debugPrint("response data : ${response.data}");
       debugPrint("#######################");
 
-      if(_data.containsKey("action")){
+      if (_data.containsKey("action")) {
         if (_data['action'] == "EXPIRED") {
           // TOKEN EXPIRED
           context.read<GlobalSettingProvider>().removeToken().then((value) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, HomePage.routeName, (route) => false);
+            navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              HomePage.routeName,
+              (route) => false,
+            );
           });
         }
       }
@@ -46,8 +48,7 @@ class ApiService {
   }
 
   Future get(
-      {required String url,
-      required Function(dynamic response) res}) async {
+      {required String url, required Function(dynamic response) res}) async {
     Response response = await dio.get(url, queryParameters: {
       "token": context.read<GlobalSettingProvider>().token ?? ""
     });

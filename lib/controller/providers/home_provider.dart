@@ -30,6 +30,11 @@ class HomeProvider extends ChangeNotifier{
 
   ModelConfigs? modelConfigs;
 
+  void toggleHeadlineExpand(ModelHeadline modelHeadline) {
+    modelHeadline.isExpanded = !modelHeadline.isExpanded;
+    notifyListeners();
+  }
+
   Future<void> requestHeadline() async {
     _listHeadline = [];
 
@@ -56,11 +61,6 @@ class HomeProvider extends ChangeNotifier{
     });
   }
 
-  void toggleListTile(ModelHeadline model) {
-    model.isExpanded = !model.isExpanded;
-    notifyListeners();
-  }
-
   void startPay() {
 
     apiService!.get(url: "payment.php", res: (data) async{
@@ -81,56 +81,66 @@ class HomeProvider extends ChangeNotifier{
 
     for (var element in _listHeadline) {
       if(element.complete){
-
-        switch(element.videoVisibility){
-          case VideoVisibility.private:
-            if((modelPersonalData?.purchased ?? false) == false &&
-                loading == false){
-              element.videoController = VideoPlayerController.network(
-                  Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
-              )..initialize().then((_) {
-                element.chewieController = ChewieController(
-                  videoPlayerController: element.videoController,
-                  autoPlay: false,
-                  looping: false,
-                );
-                notifyListeners();
-              });
-            }
-            break;
-          case VideoVisibility.public:
-
-            if(_token != null){
-
-              element.videoController = VideoPlayerController.network(
-                Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
-              )..initialize().then((_) {
-                element.chewieController = ChewieController(
-                  videoPlayerController: element.videoController,
-                  autoPlay: false,
-                  looping: false,
-                );
-                notifyListeners();
-              });
-            }
-
-            break;
-          case VideoVisibility.global:
-            element.videoController = VideoPlayerController.network(
-                Links.courseUrl + element.id.toString() + ".mp4",
-            )..initialize().then((_) {
-              element.chewieController = ChewieController(
-                videoPlayerController: element.videoController,
-                autoPlay: false,
-                looping: false,
-              );
-              notifyListeners();
-            });
-            break;
-        }
-
+        _initControllers(element);
       }
     }
   }
+
+  void _initControllers(ModelHeadline element) {
+
+    switch(element.videoVisibility){
+      case VideoVisibility.private:
+        if((modelPersonalData?.purchased ?? false) == true &&
+            loading == false){
+          element.videoController = VideoPlayerController.network(
+            Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
+          )..initialize().then((_) {
+            element.chewieController = ChewieController(
+              videoPlayerController: element.videoController,
+              autoPlay: false,
+              looping: false,
+            );
+            // if (element.isPlaying) {
+            //   element.chewieController!.seekTo(element.currentPosition);
+            //   element.chewieController!.play();
+            // }
+            notifyListeners();
+          });
+        }
+        break;
+      case VideoVisibility.public:
+
+        if(_token != null){
+
+          element.videoController = VideoPlayerController.network(
+            Links.courseUrl + element.id.toString() + ".mp4&token=" + _token!,
+          )..initialize().then((_) {
+            element.chewieController = ChewieController(
+              videoPlayerController: element.videoController,
+              autoPlay: false,
+              looping: false,
+            );
+            notifyListeners();
+          });
+        }
+
+        break;
+      case VideoVisibility.global:
+        element.videoController = VideoPlayerController.network(
+          Links.courseUrl + element.id.toString() + ".mp4",
+        )..initialize().then((_) {
+          element.chewieController = ChewieController(
+            videoPlayerController: element.videoController,
+            autoPlay: false,
+            looping: false,
+          );
+          notifyListeners();
+        });
+        break;
+    }
+
+
+  }
+
 
 }

@@ -14,17 +14,15 @@ class CustomAppBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: PhloxAnime(
-                  millisecondsDelay: 100,
-                  child: InkWell(
-                    onTap: () => Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (route) => false),
-                    child: BoldText(text: "شرکت برنامه نویسی فلوکس",
-                        textSize : _isWeb ? 18 : 12
-                    ),
-                  )),
-            ),
-
+            PhloxAnime(
+                millisecondsDelay: 100,
+                child: InkWell(
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (route) => false),
+                  child: BoldText(text: "شرکت برنامه نویسی فلوکس",
+                      textSize : _isWeb ? 18 : 12
+                  ),
+                )),
+            const Spacer(),
             IconButton(
                 onPressed: () => settingProvider.changeThemeMode(),
                 icon: Icon(settingProvider.darkMode

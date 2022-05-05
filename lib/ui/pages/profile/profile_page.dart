@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course_phlox/controller/providers/home_provider.dart';
 import 'package:flutter_course_phlox/controller/providers/profile_mobile_mode_provider.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_course_phlox/ui/pages/profile/profile_items/edit_profile
 import 'package:flutter_course_phlox/ui/pages/profile/profile_items/exit_account.dart';
 import 'package:flutter_course_phlox/ui/widgets/animate/phlox_anime.dart';
 import 'package:flutter_course_phlox/utils/links.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 import 'package:phlox_animations/phlox_animations.dart';
 import 'package:provider/provider.dart';
 import '../../../controller/providers/global_setting_provider.dart';

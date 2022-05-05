@@ -7,14 +7,14 @@ import 'package:flutter_course_phlox/ui/pages/login/login_with_phone.dart';
 import 'package:flutter_course_phlox/ui/widgets/button/border_button_widget.dart';
 import 'package:flutter_course_phlox/ui/widgets/text/extra_bold_text.dart';
 import 'package:flutter_course_phlox/utils/colors.dart';
+import 'package:flutter_course_phlox/utils/links.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemHeadline extends StatelessWidget {
   final ModelHeadline modelHeadline;
 
-  const ItemHeadline(
-      {Key? key, required this.modelHeadline})
-      : super(key: key);
+  const ItemHeadline({Key? key, required this.modelHeadline}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,50 +24,113 @@ class ItemHeadline extends StatelessWidget {
     bool _isWeb = width >= 1024;
     bool _isPhone = width <= 400;
 
-    return modelHeadline.headlineType == "title" ?
-        _itemTitle(context)
+    return Directionality(textDirection: TextDirection.rtl, child: modelHeadline.headlineType == "title"
+        ? _itemTitle(context)
         : _itemHeadLine(context,
         body: Column(
-          children:  [
+          children: [
             Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
               elevation: 32,
-              color: settingProvider.darkMode ? AppColors.blueBg : Colors.white,
+              color: settingProvider.darkMode
+                  ? AppColors.blueBg
+                  : Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
-                    color:
-                        settingProvider.darkMode ? Colors.black : Colors.white,
+                    color: settingProvider.darkMode
+                        ? Colors.black
+                        : Colors.white,
                     width: 1),
               ),
               margin: EdgeInsets.all(_isWeb
                   ? 24
                   : _isPhone
-                      ? 4
-                      : 18),
+                  ? 4
+                  : 18),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: _video(modelHeadline, context),
               ),
             ),
-            if (modelHeadline.des != null) Text('''${modelHeadline.des}'''),
+            // if (modelHeadline.chewieController != null)
+            //   IconButton(
+            //       onPressed: () {
+            //         modelHeadline.chewieController!.toggleFullScreen();
+            //       },
+            //       icon: Icon(modelHeadline.chewieController!.isFullScreen
+            //           ? Icons.fullscreen
+            //           : Icons.fullscreen_exit)),
+            if (modelHeadline.des != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('''${modelHeadline.des}'''),
+              ),
+
+
+            /// download video
+            if (modelHeadline.chewieController != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    const Expanded(
+                        child: Text(
+                          "اگر در نمایش ویدیو مشکل دارید، می توانید دانلود کنید",
+                          style: TextStyle(color: Colors.grey,
+                              fontSize: 10),
+                        )),
+                    MaterialButton(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      elevation: 32,
+                      color: settingProvider.darkMode
+                          ? AppColors.blueBg
+                          : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        side: BorderSide(
+                            color: settingProvider.darkMode
+                                ? Colors.black
+                                : Colors.white,
+                            width: 1),
+                      ),
+                      onPressed: () async {
+                        String url = Links.courseUrl + modelHeadline.id.toString() + ".mp4";
+                        if(modelHeadline.videoVisibility != VideoVisibility.global){
+                          url += "&token=" + (settingProvider.token ?? "");
+                        }
+                        if(await canLaunch(url)){
+                          await launch(url);
+                        }else {
+                          throw 'Could not launch $url';
+                        }                      },
+                      child: const Text("دانلود",
+                        style: TextStyle(
+                            fontSize: 10),),
+                    )
+                  ],
+                ),
+              ),
+
             if (modelHeadline.des != null)
               const SizedBox(
                 height: 12,
               ),
           ],
-        ));
+        )));
   }
 
   Widget _itemHeadLine(context, {required Widget body}) {
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
-    HomeProvider homeProvider = Provider.of(context, listen: true);
     GlobalSettingProvider settingProvider = Provider.of(context, listen: true);
     return Container(
       width: _isWeb ? 1060 : double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
+          border: Border.all(
+              color: settingProvider.darkMode ? AppColors.blueBg : Colors.white,
+              width: 2),
           borderRadius: BorderRadius.circular(24),
           color: settingProvider.darkMode
               ? AppColors.blueBgDark
@@ -81,61 +144,46 @@ class ItemHeadline extends StatelessWidget {
                 spreadRadius: 1)
           ]),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: ExpansionPanelList(
-        animationDuration: const Duration(milliseconds: 300),
-        children: [
-          ExpansionPanel(
-            backgroundColor:
-                settingProvider.darkMode ? AppColors.blueBgDark : Colors.white,
-            headerBuilder: (context, isExpanded) {
-              return Container(
-                  padding: EdgeInsets.only(
-                      right: _isWeb ? 24 : 18, top: 24, bottom: 24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          Card(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.all(10),
-                              child: Text(
-                                "${modelHeadline.index}",
-                                style: const TextStyle(fontSize: 12, fontFamily: 'vazir'),
-                              ),
-                            ),
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            elevation: 32,
-                            color: settingProvider.darkMode
-                                ? AppColors.blueBg
-                                : Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(
-                                  color: settingProvider.darkMode
-                                      ? Colors.black
-                                      : Colors.white,
-                                  width: 1),
-                            ),
-                          ),
-                          Expanded(child: Text(modelHeadline.title)),
-                          if (width > 400) _row1()
-                        ],
+      child: ExpansionTile(
+        title: Container(
+            padding:
+                EdgeInsets.only(right: _isWeb ? 6 : 2, top: 12, bottom: 12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "${modelHeadline.index}",
+                          style: const TextStyle(
+                              fontSize: 12, fontFamily: 'vazir'),
+                        ),
                       ),
-                      if (width <= 400) _row1()
-                    ],
-                  ));
-            },
-            body: body,
-            isExpanded: modelHeadline.isExpanded,
-            canTapOnHeader: true,
-          ),
-        ],
-        elevation: 0,
-        expandedHeaderPadding: const EdgeInsets.only(right: 6),
-        expansionCallback: (panelIndex, isExpanded) =>
-            homeProvider.toggleListTile(modelHeadline),
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      elevation: 32,
+                      color: settingProvider.darkMode
+                          ? AppColors.blueBg
+                          : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(
+                            color: settingProvider.darkMode
+                                ? Colors.black
+                                : Colors.white,
+                            width: 1),
+                      ),
+                    ),
+                    Expanded(child: Text(modelHeadline.title)),
+                    if (width > 400) _row1()
+                  ],
+                ),
+                if (width <= 400) _row1()
+              ],
+            )),
+        children: [body],
       ),
     );
   }
@@ -295,7 +343,6 @@ class ItemHeadline extends StatelessWidget {
   }
 
   Widget _itemTitle(context) {
-
     double width = MediaQuery.of(context).size.width;
     bool _isWeb = width >= 1024;
     return Padding(
@@ -303,17 +350,12 @@ class ItemHeadline extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           const Divider(color: Colors.grey, height: 1),
-
           ExtraBoldText(
             text: modelHeadline.title,
             textSize: _isWeb ? 32 : 24,
           ),
-
-          if(modelHeadline.des != null)
-            Text(modelHeadline.des!)
-
+          if (modelHeadline.des != null) Text(modelHeadline.des!)
         ],
       ),
     );

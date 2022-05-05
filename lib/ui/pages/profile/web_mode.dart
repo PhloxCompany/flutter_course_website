@@ -38,11 +38,11 @@ class _WebModeState extends State<_WebMode> {
                   width: 300,
                   child: InkWell(
                     onTap: () async {
-                      Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+                      var bytesFromPicker = await FilePicker.platform.pickFiles();
                       if(bytesFromPicker == null){
                         return;
                       }
-                      profileMobileModeProvider.requestProfileImage(context,bytesFromPicker);
+                      profileMobileModeProvider.requestProfileImage(context,bytesFromPicker.files.first.bytes!);
                       },
                     child: Stack(
                       children: [

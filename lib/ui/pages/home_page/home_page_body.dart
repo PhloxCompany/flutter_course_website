@@ -52,7 +52,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                 blurRadius: 60,
               ),
             ],
-            color: settingProvider.darkMode ? Colors.blueGrey.shade900 : null,
+            color: settingProvider.darkMode ? Colors.blueGrey.shade900 : Colors.amber.shade50,
             image: settingProvider.darkMode
                 ? null
                 : const DecorationImage(

@@ -12,7 +12,6 @@ class ModelHeadline {
   String time;
   int sortId;
   VideoVisibility videoVisibility;
-  bool isPlay = false;
   bool isExpanded = false;
   late VideoPlayerController videoController;
   ChewieController? chewieController;

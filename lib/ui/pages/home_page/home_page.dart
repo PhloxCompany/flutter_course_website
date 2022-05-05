@@ -36,19 +36,21 @@ class HomePage extends StatelessWidget {
         backgroundColor: settingProvider.darkMode
             ? AppColors.blueBgDark
             : Colors.amber.shade50,
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 90),
-              controller: settingProvider.scrollController,
-              child: const Center(
-                child: HomePageBody(),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 90),
+                controller: settingProvider.scrollController,
+                child: const Center(
+                  child: HomePageBody(),
+                ),
               ),
-            ),
-            if ((homeProvider.modelPersonalData?.purchased ?? false) == false &&
-                homeProvider.loading == false)
-              const _HomePageBottomNavigation()
-          ],
+              if ((homeProvider.modelPersonalData?.purchased ?? false) == false &&
+                  homeProvider.loading == false)
+                const _HomePageBottomNavigation()
+            ],
+          ),
         ),
       ),
     );

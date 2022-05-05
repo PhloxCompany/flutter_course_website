@@ -53,6 +53,15 @@ android {
         versionName flutterVersionName
     }
 
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a'
+            universalApk true
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

@@ -1,7 +1,7 @@
 {
-    "name": "flutter course phlox",
-    "short_name": "flutter course",
-    "start_url": "./",
+    "name": "شرکت برنامه نویسی فلوکس",
+    "short_name": "آموزش فلاتر",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
